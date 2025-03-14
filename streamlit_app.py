@@ -1,56 +1,200 @@
 import streamlit as st
-from openai import OpenAI
 
-# Show title and description.
-st.title("💬 Chatbot")
-st.write(
-    "This is a simple chatbot that uses OpenAI's GPT-3.5 model to generate responses. "
-    "To use this app, you need to provide an OpenAI API key, which you can get [here](https://platform.openai.com/account/api-keys). "
-    "You can also learn how to build this app step by step by [following our tutorial](https://docs.streamlit.io/develop/tutorials/llms/build-conversational-apps)."
+# Set page configuration
+st.set_page_config(page_title="Trippin", layout="wide")
+
+# Initialize session state for active tab
+if "active_tab" not in st.session_state:
+    st.session_state["active_tab"] = "Home"  # Default tab
+
+# Function to switch tabs
+def switch_tab(tab_name):
+    st.session_state["active_tab"] = tab_name
+    st.rerun()  # Refresh UI to reflect change
+
+# Custom CSS for aligning navigation buttons to the right & styling the "Get Started" button
+st.markdown(
+    """
+    <style>
+        /* Align navigation buttons to the right */
+        .nav-container {
+            display: flex;
+            justify-content: flex-end;
+            align-items: ;
+            padding: 10px 40px;
+            gap: 25px;
+        }
+
+        /* Navigation button styling */
+        .stButton > button {
+            background: none;
+            border: none;
+            color: black;
+            font-size: 18px;
+            cursor: pointer;
+            font-weight: bold;
+        }
+
+        /* Hover effect for navigation buttons */
+        .stButton > button:hover {
+            text-decoration: underline;
+        }
+
+        /* Style for the 'Get Started' button */
+        .get-started-container {
+            display: flex;
+            justify-content: center;
+            margin-top: 50px;
+        }
+        .get-started {
+            background-color: #FF7F9F;
+            color: white;
+            font-size: 18px;
+            font-weight: bold;
+            padding: 12px 24px;
+            border: 2px solid #ff5c8a;
+            border-radius: 8px;
+            cursor: pointer;
+            text-align: center;
+        }
+        .get-started-button:hover {
+            background-color: #ff5c8a;
+            border-color: #ff3d6e;
+        }
+
+        /* Styling for the Trippin button text */
+        div[data-testid="stButton"] > button {
+            font-size: 24px !important;  /* Larger font */
+            font-weight: bold !important;
+            color: #FF7F9F !important;  /* Pink text */
+            background: none !important;
+            border: none !important;
+            cursor: pointer;
+        }
+        div[data-testid="stButton"] > button:hover {
+            text-decoration: underline;
+        }
+    </style>
+    """,
+    unsafe_allow_html=True
 )
 
-# Ask user for their OpenAI API key via `st.text_input`.
-# Alternatively, you can store the API key in `./.streamlit/secrets.toml` and access it
-# via `st.secrets`, see https://docs.streamlit.io/develop/concepts/connections/secrets-management
-openai_api_key = st.text_input("OpenAI API Key", type="password")
-if not openai_api_key:
-    st.info("Please add your OpenAI API key to continue.", icon="🗝️")
-else:
 
-    # Create an OpenAI client.
-    client = OpenAI(api_key=openai_api_key)
+# Navigation Bar (properly aligned to the right)
+st.markdown('<div class="nav-container">', unsafe_allow_html=True)
+col1, col2, col3 = st.columns([8, 1, 1])  # Push buttons to the right
+with col3:
+    if st.button("Chat", key="chat_tab"):
+        switch_tab("Chat")
+with col2:
+    if st.button("Plan My Trip", key="trip_tab"):
+        switch_tab("Plan My Trip")
+with col1:
+    if st.button("Trippin", key="home_tab"):
+        switch_tab("Home")
 
-    # Create a session state variable to store the chat messages. This ensures that the
-    # messages persist across reruns.
-    if "messages" not in st.session_state:
-        st.session_state.messages = []
+st.markdown('</div>', unsafe_allow_html=True)
 
-    # Display the existing chat messages via `st.chat_message`.
-    for message in st.session_state.messages:
-        with st.chat_message(message["role"]):
-            st.markdown(message["content"])
+# Render content based on the active tab
+if st.session_state["active_tab"] == "Home":
+    st.markdown(
+    """
+    <h1 style="text-align: center;">Craft Unforgettable Itineraries with AI Trip Planner</h1>
+    <p style="text-align: center; font-size:18px;">Your personal trip planner and travel curator, creating custom itineraries tailored to your interests and budget.</p>
+    """,
+    unsafe_allow_html=True
+)
+    
+    # # Properly styled "Get Started" button with border
+    # st.markdown('<div class="get-started-container">', unsafe_allow_html=True)
+    # if st.button("Get started—it's free", key="get_started"):
+    #     switch_tab("Plan My Trip")  # Redirect to "Plan My Trip" tab
+    # st.markdown('</div>', unsafe_allow_html=True)
+    # # Create three columns: left (empty), center (button), right (empty)
 
-    # Create a chat input field to allow the user to enter a message. This will display
-    # automatically at the bottom of the page.
-    if prompt := st.chat_input("What is up?"):
+    col1, col2, col3 = st.columns([5, 2, 5])
 
-        # Store and display the current prompt.
-        st.session_state.messages.append({"role": "user", "content": prompt})
-        with st.chat_message("user"):
-            st.markdown(prompt)
+    with col2:  # Center column
+        if st.button("Get started—it's free", key="get_started"):
+            switch_tab("Plan My Trip")  # Redirect to "Plan My Trip" tab
 
-        # Generate a response using the OpenAI API.
-        stream = client.chat.completions.create(
-            model="gpt-3.5-turbo",
-            messages=[
-                {"role": m["role"], "content": m["content"]}
-                for m in st.session_state.messages
+    
+
+elif st.session_state["active_tab"] == "Plan My Trip":
+    st.markdown("<h2 style='text-align: center;'>Tell us your travel preferences</h2>", unsafe_allow_html=True)
+    st.markdown("<p style='text-align: center;'>Just provide some basic information, and our trip planner will generate a customized itinerary based on your preferences.</p>", unsafe_allow_html=True)
+
+    # Create layout with empty space on both sides
+    left_space, form, right_space = st.columns([1, 4, 1])
+
+    with form:
+        # Destination input
+        st.markdown("### What is your destination of choice?")
+        destination = st.text_input("What is your destination of choice?", placeholder="Enter your destination", label_visibility="collapsed")
+
+        st.markdown("---")  # Horizontal separator
+
+        # Travel date input
+        st.markdown("### When are you planning to travel?")
+        travel_date = st.date_input("When are you planning to travel?", format="YYYY-MM-DD", label_visibility="collapsed")
+
+        st.markdown("---")  # Horizontal separator
+
+        # Number of travel days
+        st.markdown("### How many days are you planning to travel?")
+        num_days = st.number_input("How many days are you planning to travel?", min_value=1, max_value=60, value=7, label_visibility="collapsed")
+
+        st.markdown("---")  # Horizontal separator
+
+        # Budget selection
+        st.markdown("### What is Your Budget?")
+        budget = st.radio("What is Your Budget?", ["Low (0 - 1000 USD)", "Medium (1000 - 2500 USD)", "High (2500+ USD)"], horizontal=True, label_visibility="collapsed")
+
+        st.markdown("---")  # Horizontal separator
+
+        # Travel companions selection
+        st.markdown("### Who do you plan on traveling with on your next adventure?")
+        companions = st.multiselect("Who do you plan on traveling with on your next adventure?", ["👤 Solo", "👫 Couple", "👨‍👩‍👧 Family", "👬 Friends"], label_visibility="collapsed")
+
+        st.markdown("---")  # Horizontal separator
+
+        # Activity selection
+        st.markdown("### Which activities are you interested in?")
+        activities = st.multiselect(
+            "Which activities are you interested in?",
+            [
+                "Beaches", "City Sightseeing", "Outdoor Adventures", "Festivals/Events",
+                "Food Exploration", "Nightlife", "Shopping", "Spa Wellness"
             ],
-            stream=True,
+            label_visibility="collapsed"
         )
 
-        # Stream the response to the chat using `st.write_stream`, then store it in 
-        # session state.
-        with st.chat_message("assistant"):
-            response = st.write_stream(stream)
-        st.session_state.messages.append({"role": "assistant", "content": response})
+
+        st.markdown("---")  # Horizontal separator
+
+        # Dietary preferences
+        st.markdown("### Would you like to have these options?")
+        dietary_options = st.multiselect(" Would you like to have these options?", ["Halal", "Vegetarian"],label_visibility="collapsed")
+
+        st.markdown("---")  # Horizontal separator
+
+        # Additional requirements section
+        st.markdown("### Any additional requirements?")
+        additional_requirements = st.text_area(
+            "Enter any specific locations, allergens, or preferences:",
+            placeholder="E.g., I want to visit the Eiffel Tower, avoid peanuts, need wheelchair accessibility...",
+            label_visibility="collapsed"
+        )
+
+        st.markdown("---")  # Horizontal separator
+
+        # Submit button
+        submit = st.button("Submit", key="submit_preferences", help="Generate your custom itinerary")
+
+        if submit:
+            st.success("Your preferences have been saved! We will generate your itinerary shortly.")
+
+
+elif st.session_state["active_tab"] == "Chat":
+    st.header("Chat with AI")
+    st.write("Ask travel-related questions and get instant recommendations.")
