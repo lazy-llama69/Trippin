@@ -1,4 +1,8 @@
 import streamlit as st
+from openai import OpenAI
+
+# Set your OpenAI API key
+client = OpenAI(api_key="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")
 
 # Set page configuration
 st.set_page_config(page_title="Trippin", layout="wide")
@@ -79,7 +83,6 @@ st.markdown(
     unsafe_allow_html=True
 )
 
-
 # Navigation Bar (properly aligned to the right)
 st.markdown('<div class="nav-container">', unsafe_allow_html=True)
 col1, col2, col3 = st.columns([8, 1, 1])  # Push buttons to the right
@@ -105,20 +108,11 @@ if st.session_state["active_tab"] == "Home":
     unsafe_allow_html=True
 )
     
-    # # Properly styled "Get Started" button with border
-    # st.markdown('<div class="get-started-container">', unsafe_allow_html=True)
-    # if st.button("Get started—it's free", key="get_started"):
-    #     switch_tab("Plan My Trip")  # Redirect to "Plan My Trip" tab
-    # st.markdown('</div>', unsafe_allow_html=True)
-    # # Create three columns: left (empty), center (button), right (empty)
-
     col1, col2, col3 = st.columns([5, 2, 5])
 
     with col2:  # Center column
         if st.button("Get started—it's free", key="get_started"):
             switch_tab("Plan My Trip")  # Redirect to "Plan My Trip" tab
-
-    
 
 elif st.session_state["active_tab"] == "Plan My Trip":
     st.markdown("<h2 style='text-align: center;'>Tell us your travel preferences</h2>", unsafe_allow_html=True)
@@ -169,7 +163,6 @@ elif st.session_state["active_tab"] == "Plan My Trip":
             label_visibility="collapsed"
         )
 
-
         st.markdown("---")  # Horizontal separator
 
         # Dietary preferences
@@ -192,8 +185,31 @@ elif st.session_state["active_tab"] == "Plan My Trip":
         submit = st.button("Submit", key="submit_preferences", help="Generate your custom itinerary")
 
         if submit:
-            st.success("Your preferences have been saved! We will generate your itinerary shortly.")
+            # Collect all inputs
+            user_preferences = {
+                "destination": destination,
+                "travel_date": travel_date.strftime("%Y-%m-%d"),
+                "num_days": num_days,
+                "budget": budget,
+                "companions": companions,
+                "activities": activities,
+                "dietary_options": dietary_options,
+                "additional_requirements": additional_requirements
+            }
 
+            # Call OpenAI API
+            response = client.chat.completions.create(
+                model="gpt-3.5-turbo",
+                messages=[
+                    {"role": "system", "content": "You are a helpful travel assistant."},
+                    {"role": "user", "content": f"Generate a custom travel itinerary based on the following preferences: {user_preferences}"}
+                ],
+                max_tokens=500
+            )
+
+            # Display the generated itinerary
+            st.markdown("### Your Custom Itinerary")
+            st.write(response.choices[0].message.content)
 
 elif st.session_state["active_tab"] == "Chat":
     st.header("Chat with AI")
