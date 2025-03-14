@@ -1,4 +1,5 @@
 import streamlit as st
+from chatbot import generate_chat_response  
 
 # Set page configuration
 st.set_page_config(page_title="Trippin", layout="wide")
@@ -78,7 +79,6 @@ st.markdown(
     """,
     unsafe_allow_html=True
 )
-
 
 # Navigation Bar (properly aligned to the right)
 st.markdown('<div class="nav-container">', unsafe_allow_html=True)
@@ -196,5 +196,4 @@ elif st.session_state["active_tab"] == "Plan My Trip":
 
 
 elif st.session_state["active_tab"] == "Chat":
-    st.header("Chat with AI")
-    st.write("Ask travel-related questions and get instant recommendations.")
+    generate_chat_response()
