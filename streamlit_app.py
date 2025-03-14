@@ -2,7 +2,7 @@ import streamlit as st
 from openai import OpenAI
 
 # Set your OpenAI API key
-client = OpenAI(api_key="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")
+client = OpenAI(api_key="")
 
 # Set page configuration
 st.set_page_config(page_title="Trippin", layout="wide")
