@@ -1,20 +1,44 @@
 import streamlit as st
 import google.generativeai as genai
+
+# Configure Gemini API key from Streamlit secrets
+# genai.configure(api_key=st.secrets["GEMINI"]["GEMINI_API_KEY"])
 genai.configure(api_key="AIzaSyAHBdAQOzjZiAXUkWD-TjzymkwDd7kxB5g")
 model = genai.GenerativeModel('gemini-1.5-flash')
-def generate_chat_response() -> str:
-    """
-    Function to send a user's input to the AI model and get a response.
-    Replace this with your chatbot model or API interaction.
-    """
-    try:
-        prompt = st.chat_input(f"Can you give me a funny joke")
-        response = model.generate_content(
-            prompt,
-            generation_config=genai.types.GenerationConfig(
-                temperature=1.5,
-            ),
-        )
-        st.markdown(response.text)
-    except Exception as e:
-        print(f"Attempt failed: {e}")
+
+def generate_chat_response():
+
+    if "messages" not in st.session_state:
+        st.session_state.messages = []
+
+    # Display chat messages from history on app rerun
+    for message in st.session_state.messages:
+        with st.chat_message(message["role"]):
+            st.markdown(message["content"])
+
+    # Accept user input and handle it
+    if prompt := st.chat_input("Ask me anything!"):
+        # Add user message to chat history
+        st.session_state.messages.append({"role": "user", "content": prompt})
+        
+        # Display user message in chat message container
+        with st.chat_message("user"):
+            st.markdown(prompt)
+
+        # Generate assistant's response using Gemini
+        try:
+            response = model.generate_content(
+                prompt,
+                generation_config=genai.types.GenerationConfig(
+                    temperature=1.5,  # You can adjust the temperature here
+                ),
+            )
+            # Add assistant message to chat history
+            st.session_state.messages.append({"role": "assistant", "content": response.text})
+
+            # Display assistant message in chat message container
+            with st.chat_message("assistant"):
+                st.markdown(response.text)
+        except Exception as e:
+            # Handle any errors that may occur
+            st.error(f"Error generating response: {e}")
