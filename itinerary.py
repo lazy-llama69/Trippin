@@ -8,7 +8,6 @@ from reportlab.platypus import SimpleDocTemplate, Paragraph
 from reportlab.lib.styles import getSampleStyleSheet
 import re
 from io import BytesIO
-from planmytrip import plan_my_trip  # Import the plan_my_trip function
 
 def get_coordinates(location):
     """Convert a location name to latitude and longitude coordinates."""
@@ -27,8 +26,8 @@ def display_itinerary():
     # Remove padding and margins from the main container
     # Add a back button
     if st.button("Back"):
-        st.session_state["active_tab"] = "Form"
-        st.experimental_rerun()
+        st.session_state["active_tab"] = "Plan My Trip"
+        st.rerun()
     st.markdown(
         """
         <style>
@@ -109,6 +108,14 @@ def display_itinerary():
                 st.write(f"Website: {details.get('website', 'Not available')}")
                 st.write(f"Top Review: {details.get('top_review', 'Not available')}")
                 st.write("---")
+                st.write(f"**{place}**")
+                st.write(f"Types: {', '.join(details.get('types', [])) if details.get('types') else 'Not available'}")
+                st.write(f"Rating: {details.get('rating', 'Not available')}")
+                st.write(f"Price Level: {details.get('price_level', 'Not available')}")
+                st.write(f"Opening Hours: {details.get('opening_hours', 'Not available')}")
+                st.write(f"Website: {details.get('website', 'Not available')}")
+                st.write(f"Top Review: {details.get('top_review', 'Not available')}")
+                st.write("---")
             else:
                 st.write(f"{place}: Rating - Not available, Price Level - Not available")
 
@@ -137,16 +144,3 @@ def display_itinerary():
             st_folium(m, width=None, height=600)
         else:
             st.write("Could not find coordinates for the destination.")
-
-# Main function to handle page switching
-def main():
-    if "active_tab" not in st.session_state:
-        st.session_state["active_tab"] = "Form"
-
-    if st.session_state["active_tab"] == "Form":
-        plan_my_trip()
-    elif st.session_state["active_tab"] == "Itinerary":
-        display_itinerary()
-
-if __name__ == "__main__":
-    main()
