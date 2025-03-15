@@ -39,9 +39,8 @@ def display_itinerary():
         unsafe_allow_html=True
     )
     
-    st.title("Your Custom Itinerary")
     # Create two columns: left for itinerary, right for map
-    left_col, right_col = st.columns([1, 1])  # 2:1 ratio
+    left_col, right_col = st.columns([1, 1]) 
     
 
     def convert_markdown_to_html(text):
