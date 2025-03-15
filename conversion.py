@@ -8,6 +8,19 @@ def get_conversion():
     load_dotenv()
     api_key = os.getenv("EXCHANGE_API_KEY")
 
+    st.markdown(
+    """
+    <style>
+        .block-container {
+            padding-top: 1rem !important; /* Adjust the top padding */
+            padding-left: 6rem;
+            padding-right: 6rem;
+        }
+    </style>
+    """,
+    unsafe_allow_html=True
+    )
+
     # Define currency options with full names
     currency_options = {
         "USD (United States Dollar)": "USD",

@@ -24,6 +24,19 @@ def switch_tab(tab_name):
     st.session_state["active_tab"] = tab_name
     st.rerun()  # Refresh UI to reflect change
 
+st.markdown(
+    """
+    <style>
+        .block-container {
+            padding-top: 1rem !important; /* Adjust the top padding */
+            padding-left: 6rem;
+            padding-right: 6rem;
+        }
+    </style>
+    """,
+    unsafe_allow_html=True
+)
+
 # Custom CSS for aligning navigation buttons to the right & styling the "Get Started" button
 st.markdown(
     """

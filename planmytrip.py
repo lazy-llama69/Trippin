@@ -13,6 +13,18 @@ load_dotenv()
 openai.api_key = os.getenv("OPENAI_API_KEY")
 
 def plan_my_trip():
+    st.markdown(
+    """
+    <style>
+        .block-container {
+            padding-top: 1rem !important; /* Adjust the top padding */
+            padding-left: 6rem;
+            padding-right: 6rem;
+        }
+    </style>
+    """,
+    unsafe_allow_html=True
+    )
     st.markdown("<h2 style='text-align: center;'>Tell us your travel preferences</h2>", unsafe_allow_html=True)
     st.markdown("<p style='text-align: center;'>Just provide some basic information, and our trip planner will generate a customized itinerary based on your preferences.</p>", unsafe_allow_html=True)
 
