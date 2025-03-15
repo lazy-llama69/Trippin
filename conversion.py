@@ -42,7 +42,7 @@ def get_conversion():
     target_currency = currency_options[target_currency_desc]
 
     # When the user clicks the "Convert" button
-    if st.button("Convert"):
+    if st.button("Convert",type="primary"):
         conversion_rate = get_exchange_rate(api_key, base_currency, target_currency)
         if conversion_rate:
             converted_amount = amount * conversion_rate

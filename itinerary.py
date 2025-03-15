@@ -25,9 +25,7 @@ def get_coordinates(location):
 def display_itinerary():
     # Remove padding and margins from the main container
     # Add a back button
-    if st.button("Back"):
-        st.session_state["active_tab"] = "Plan My Trip"
-        st.rerun()
+
     st.markdown(
     """
     <style>
@@ -103,7 +101,13 @@ def display_itinerary():
         st.write(itinerary_text)
         formatted_itinerary = convert_markdown_to_html(itinerary_text)
         pdf = generate_pdf(formatted_itinerary)
-        st.download_button("Download Itinerary as PDF", data=pdf, file_name="itinerary.pdf", mime="application/pdf")
+        
+        st.write("")
+        st.download_button("Download Itinerary as PDF", data=pdf, file_name="itinerary.pdf", mime="application/pdf",type="primary")
+
+        if st.button("Back", type="primary"):
+            st.session_state["active_tab"] = "Plan My Trip"
+            st.rerun()
 
     with right_col:
         st.subheader("Map of Your Destination")

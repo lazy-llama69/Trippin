@@ -52,7 +52,7 @@ def plan_my_trip():
         additional_requirements = st.text_area("Enter any specific locations, allergens, or preferences:", placeholder="E.g., I want to visit the Eiffel Tower, avoid peanuts...", key="additional_requirements_input")
         st.markdown("---")
 
-        submit = st.button("Submit", key="submit_preferences", help="Generate your custom itinerary")
+        submit = st.button("Submit", key="submit_preferences", help="Generate your custom itinerary", type="primary")
 
         if submit:
             user_preferences = {
