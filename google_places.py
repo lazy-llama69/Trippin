@@ -56,4 +56,8 @@ def get_price_estimations(places):
                 "price_level": "Not available",
                 "rating": "Not available"
             }
+            price_estimations[place] = {
+                "price_level": "Not available",
+                "rating": "Not available"
+            }
     return price_estimations

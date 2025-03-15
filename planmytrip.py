@@ -141,3 +141,13 @@ def extract_places(itinerary):
     filtered_places = [place for place in places if place not in common_words]
     
     return filtered_places
+    # Use regular expressions to extract place names from the itinerary text
+    # This is a refined implementation to extract place names more accurately
+    place_pattern = re.compile(r'\b(?:[A-Z][a-z]+(?:\s+[A-Z][a-z]+)*)\b')
+    places = place_pattern.findall(itinerary)
+    
+    # Filter out common words that are not place names
+    common_words = set(["Sure", "Here", "Destination", "Travel", "Date", "March", "Duration", "Budget", "Low", "Companions", "Solo", "Activities", "Exploring", "Dietary", "Options", "Vegetarian", "Additional", "Requirements", "Comfortable", "Day", "Arrival", "Check", "Try", "Temples", "Cultural", "Sites", "Take", "River", "Explore", "Trip", "World", "Heritage", "Site", "Food", "Tour", "Join", "Experience", "Relaxation", "Spa", "Indulge", "Thai", "Relax", "Enjoy", "Shopping", "Markets", "Shop", "Center", "Bargain", "Departure", "Pack", "Transfer", "This"])
+    filtered_places = [place for place in places if place not in common_words]
+    
+    return filtered_places
