@@ -42,7 +42,8 @@ def display_itinerary():
     st.title("Your Custom Itinerary")
     # Create two columns: left for itinerary, right for map
     left_col, right_col = st.columns([1, 1])  # 2:1 ratio
-                
+    
+    
     def convert_markdown_to_html(text):
         """
         Convert markdown-style text (e.g., **bold**, ### header) to HTML-like formatting

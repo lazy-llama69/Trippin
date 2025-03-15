@@ -2,6 +2,7 @@ import streamlit as st
 import openai
 from dotenv import load_dotenv
 import os
+import re
 # from google_places import get_price_estimations
 from streamlit_extras.switch_page_button import switch_page
 
@@ -64,7 +65,7 @@ def plan_my_trip():
 
             itinerary = response.choices[0].message.content
             st.session_state["itinerary"] = itinerary
-            st.session_state["destination"] = destination  # Store the destination
+            st.session_state["destination"] = extract_location(itinerary)  # Store the destination
             st.session_state["active_tab"] = "Itinerary"
             st.rerun()
             places = extract_places(itinerary)
@@ -78,7 +79,19 @@ def plan_my_trip():
             # st.markdown("### Price Estimations")
             # st.write(price_estimations)
 
-            
+def extract_location(itinerary):
+    # Regex pattern to match text between 'for' and the colon
+    pattern = r'for\s+([A-Za-z\s]+):'
+    
+    # Search for the location using regex
+    match = re.search(pattern, itinerary)
+    
+    # If a match is found, return the location
+    if match:
+        return match.group(1).strip()
+    else:
+        return None
+        
 def extract_places(itinerary):
     # Implement a function to extract place names from the itinerary text
     # This is a placeholder implementation and should be replaced with actual logic
