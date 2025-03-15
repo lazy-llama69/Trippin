@@ -1,9 +1,15 @@
 import streamlit as st
 import openai
+from dotenv import load_dotenv
+import os
 from chatbot import generate_chat_response  
 from planmytrip import plan_my_trip
 
+# Load environment variables from .env file
+load_dotenv()
+
 # Set your OpenAI API key
+openai.api_key = os.getenv("OPENAI_API_KEY")
 
 # Set page configuration
 st.set_page_config(page_title="Trippin", layout="wide")
@@ -113,8 +119,7 @@ if st.session_state["active_tab"] == "Home":
 
     with col2:  # Center column
         if st.button("Get started—it's free", key="get_started"):
-            switch_tab("Plan My Trip")  
-
+            switch_tab("Plan My Trip")  # Redirect to "Plan My Trip" tab
 
 elif st.session_state["active_tab"] == "Plan My Trip":
     plan_my_trip()

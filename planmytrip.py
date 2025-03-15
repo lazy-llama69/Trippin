@@ -1,6 +1,5 @@
 import streamlit as st
-from openai import OpenAI
-client = OpenAI(api_key="")
+import openai
 
 def plan_my_trip():
     st.markdown("<h2 style='text-align: center;'>Tell us your travel preferences</h2>", unsafe_allow_html=True)
@@ -86,7 +85,7 @@ def plan_my_trip():
             }
 
             # Call OpenAI API
-            response = client.chat.completions.create(
+            response = openai.ChatCompletion.create(
                 model="gpt-3.5-turbo",
                 messages=[
                     {"role": "system", "content": "You are a helpful travel assistant."},
