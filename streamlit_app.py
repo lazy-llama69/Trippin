@@ -128,11 +128,14 @@ st.markdown('</div>', unsafe_allow_html=True)
 if st.session_state["active_tab"] == "Home":
     st.markdown(
     """
-    <h1 style="text-align: center;">Craft Unforgettable Itineraries with AI Trip Planner</h1>
-    <p style="text-align: center; font-size:18px;">Your personal trip planner and travel curator, creating custom itineraries tailored to your interests and budget.</p>
+    <h1 style="text-align: center;">
+        Say Goodbye to Travel Hassles, Hello to <span style="color: #FF7F9F;">Trippin AI!</span>
+    </h1>
+    <p style="text-align: center; font-size:18px;">We create customized itineraries, provide currency conversion, and answer all your travel questions. Need help? Just ask our chatbot!</p>
     """,
     unsafe_allow_html=True
 )
+    
     
     col1, col2, col3 = st.columns([5, 2, 5])
 
@@ -300,7 +303,7 @@ elif st.session_state["active_tab"] == "Plan My Trip":
     plan_my_trip()
 
 elif st.session_state["active_tab"] == "Chat":
-    st.header("Chat with AI")
+    st.title("Chat with AI")
     st.write("Ask travel-related questions and get instant recommendations.")
     generate_chat_response()
 

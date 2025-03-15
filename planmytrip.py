@@ -25,7 +25,8 @@ def plan_my_trip():
     """,
     unsafe_allow_html=True
     )
-    st.markdown("<h2 style='text-align: center;'>Tell us your travel preferences</h2>", unsafe_allow_html=True)
+
+    st.markdown("<h1 style='text-align: center;'>Tell us your travel preferences</h1>", unsafe_allow_html=True)
     st.markdown("<p style='text-align: center;'>Just provide some basic information, and our trip planner will generate a customized itinerary based on your preferences.</p>", unsafe_allow_html=True)
 
     left_space, form, right_space = st.columns([1, 4, 1])
