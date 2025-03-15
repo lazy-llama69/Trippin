@@ -26,7 +26,7 @@ def display_itinerary():
     # Remove padding and margins from the main container
     # Add a back button
     if st.button("Back"):
-        st.session_state["active_tab"] = "Home"
+        st.session_state["active_tab"] = "Plan My Trip"
         st.rerun()
     st.markdown(
         """
@@ -43,7 +43,7 @@ def display_itinerary():
     # Create two columns: left for itinerary, right for map
     left_col, right_col = st.columns([1, 1])  # 2:1 ratio
     
-    
+
     def convert_markdown_to_html(text):
         """
         Convert markdown-style text (e.g., **bold**, ### header) to HTML-like formatting
