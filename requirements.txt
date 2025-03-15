@@ -4,5 +4,7 @@ python-dotenv
 requests
 google_places 
 reportlab
-
-
+streamlit_extras
+streamlit_folium
+geopy
+folium
