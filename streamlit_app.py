@@ -298,6 +298,72 @@ if st.session_state["active_tab"] == "Home":
                 st.write(f"- {festival}")
 
         st.markdown("Safe travels! 🌍✨")
+        st.markdown("<hr>", unsafe_allow_html=True)  # Add a separator
+
+    st.markdown("<h2 style='text-align: center;'>💡 Travel FAQs 💡</h2>", unsafe_allow_html=True)
+
+    st.write("Find answers to common travel questions below! Click on any category to expand.")
+
+    # Visa & Passport FAQs
+    with st.expander("🛂 Visa & Passport FAQs"):
+        st.write("**Q: How do I check if I need a visa for my destination?**")
+        st.write("👉 You can check visa requirements on official embassy websites or use [iVisa](https://www.ivisa.com/) for quick reference.")
+
+        st.write("**Q: How long should my passport be valid for travel?**")
+        st.write("👉 Many countries require at least **6 months of validity** beyond your departure date.")
+
+        st.write("**Q: Do I need a transit visa if I have a layover?**")
+        st.write("👉 Some countries require transit visas if you **leave the airport**, so check with the airline or embassy.")
+
+    # Money & Currency FAQs
+    with st.expander("💰 Budget & Currency FAQs"):
+        st.write("**Q: Should I exchange money before traveling?**")
+        st.write("👉 It’s usually cheaper to **withdraw cash from ATMs** at your destination rather than exchange money at airports.")
+
+        st.write("**Q: What is the best way to avoid foreign transaction fees?**")
+        st.write("👉 Use a **no-fee travel credit card** or **withdraw larger amounts from ATMs** to reduce fees.")
+
+    # Flight & Airport FAQs
+    with st.expander("✈️ Flight & Airport FAQs"):
+        st.write("**Q: When is the best time to book a cheap flight?**")
+        st.write("👉 **Tuesdays and Wednesdays** tend to have the cheapest fares, and booking **2-3 months in advance** is ideal.")
+
+        st.write("**Q: What items are restricted in carry-on luggage?**")
+        st.write("👉 No liquids over **100ml**, sharp objects, aerosols, or batteries exceeding airline limits.")
+
+    # Accommodation FAQs
+    with st.expander("🏨 Accommodation FAQs"):
+        st.write("**Q: Should I book hotels in advance or last-minute?**")
+        st.write("👉 For peak seasons, book early. Last-minute deals can be cheaper, but availability is risky.")
+
+        st.write("**Q: Are Airbnb rentals better than hotels?**")
+        st.write("👉 **Hotels** offer **security & services**, while **Airbnb** provides **local experiences & lower costs** for groups.")
+
+    # Tech & Connectivity FAQs
+    with st.expander("📱 Tech & Connectivity FAQs"):
+        st.write("**Q: What’s the best way to get internet while traveling?**")
+        st.write("👉 Buy a **local SIM card, eSIM, or use portable WiFi**.")
+
+        st.write("**Q: Can I use my phone abroad?**")
+        st.write("👉 Check if your carrier offers **international roaming**, or **unlock your phone** for a local SIM.")
+
+    # Health & Safety FAQs
+    with st.expander("🚑 Health & Safety FAQs"):
+        st.write("**Q: Do I need travel insurance?**")
+        st.write("👉 Yes! Travel insurance covers **medical emergencies, cancellations, and lost luggage**.")
+
+        st.write("**Q: Can I drink tap water abroad?**")
+        st.write("👉 **Research first!** In some countries, only bottled or filtered water is safe.")
+
+    # Sightseeing & Activities FAQs
+    with st.expander("🗺️ Sightseeing & Activities FAQs"):
+        st.write("**Q: Should I book tours in advance or on arrival?**")
+        st.write("👉 **Popular tours (museums, safaris, adventure activities)** should be booked early to avoid missing out.")
+
+        st.write("**Q: What’s the best way to avoid crowds at attractions?**")
+        st.write("👉 **Visit early in the morning** or right before closing time.")
+
+    st.write("🔍 Need more help? Ask our chatbot for personalized travel advice!")  
 
 elif st.session_state["active_tab"] == "Plan My Trip":
     plan_my_trip()
