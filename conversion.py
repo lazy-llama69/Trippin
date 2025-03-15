@@ -5,8 +5,9 @@ import os
 
 # Function to fetch exchange rates
 def get_conversion():
-    load_dotenv()
-    api_key = os.getenv("EXCHANGE_API_KEY")
+    # load_dotenv()
+    # api_key = os.getenv("EXCHANGE_API_KEY")
+    api_key = st.secrets['EXCHANGE_API_KEY']
 
     st.markdown(
     """

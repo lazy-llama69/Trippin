@@ -8,8 +8,8 @@ from itinerary import generate_pdf, convert_markdown_to_html
 load_dotenv()
 
 # Configure Gemini API key from environment variable
-api_key = os.getenv("GEMINI_API_KEY")
-genai.configure(api_key=api_key)
+# api_key = os.getenv("GEMINI_API_KEY")
+genai.configure(api_key=st.secrets['GEMINI_API_KEY'])
 model = genai.GenerativeModel('gemini-2.0-flash')
 # Function to extract text from PDF
 def extract_pdf_text(pdf_file):

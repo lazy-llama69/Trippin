@@ -5,11 +5,8 @@ import os
 import re
 from streamlit_extras.switch_page_button import switch_page
 
-# Load environment variables from .env file
-load_dotenv()
-
 # Set your OpenAI API key
-openai.api_key = os.getenv("OPENAI_API_KEY")
+openai.api_key = st.secrets['OPENAI_API_KEY']
 
 def plan_my_trip():
     st.markdown(
