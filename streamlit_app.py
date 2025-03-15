@@ -4,6 +4,7 @@ from dotenv import load_dotenv
 import os
 from chatbot import generate_chat_response  
 from planmytrip import plan_my_trip
+from conversion import get_conversion
 
 # Load environment variables from .env file
 load_dotenv()
@@ -65,7 +66,7 @@ st.markdown(
             padding: 12px 24px;
             border: 2px solid #ff5c8a;
             border-radius: 8px;
-            cursor: pointer;
+            cursor: pointer;    
             text-align: center;
         }
         .get-started-button:hover {
@@ -92,17 +93,20 @@ st.markdown(
 
 # Navigation Bar (properly aligned to the right)
 st.markdown('<div class="nav-container">', unsafe_allow_html=True)
-col1, col2, col3 = st.columns([8, 1, 1])  # Push buttons to the right
-with col3:
-    if st.button("Chat", key="chat_tab"):
-        switch_tab("Chat")
-with col2:
-    if st.button("Plan My Trip", key="trip_tab"):
-        switch_tab("Plan My Trip")
+col1, col2, col3, col4 = st.columns([8, 1, 1.5, 0.6])  # Push buttons to the right
+
 with col1:
     if st.button("Trippin", key="home_tab"):
         switch_tab("Home")
-
+with col2:
+    if st.button("Plan My Trip", key="trip_tab"):
+        switch_tab("Plan My Trip")
+with col3:
+    if st.button("Currency Converter", key="convert_tab"):
+        switch_tab("Convert")
+with col4:
+    if st.button("Chat", key="chat_tab"):
+        switch_tab("Chat")
 st.markdown('</div>', unsafe_allow_html=True)
 
 # Render content based on the active tab
@@ -128,3 +132,8 @@ elif st.session_state["active_tab"] == "Chat":
     st.header("Chat with AI")
     st.write("Ask travel-related questions and get instant recommendations.")
     generate_chat_response()
+
+elif st.session_state["active_tab"] == "Convert":
+    get_conversion()
+
+
