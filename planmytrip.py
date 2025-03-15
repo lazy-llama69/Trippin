@@ -106,7 +106,7 @@ def plan_my_trip():
                         Must include:
                         - Line break after each activity in a day
                         - The itinerary duration is equal to the number of days in preferences
-                        
+
                         Example Format:
                         
                         **Travel Name**: "Journey to Paris: A Culinary Adventure"
@@ -124,6 +124,24 @@ def plan_my_trip():
                         12:00-13:30 | Discover the historic **Bahia Palace** \n
                         13:30-15:30 | Explore the bustling **Jemaa el-Fnaa** square \n
                         15:30-16:30 | Try tasty street food at Food Stalls in **Jemaa el-Fnaa** \n
+
+                        
+                        #Day 3: Sweet Sights and Sounds \n
+                        08:00-10:00 | Explore Gummy Bear Forest \n
+                        10:00-12:00 | Visit the Marshmallow Mountains \n
+                        18:00-22:00 | Lunch at Caramel Cove \n
+
+                        
+                        #Day 4: Chocolate River Cruise \n
+                        08:00-10:00 | Scenic Chocolate River Cruise \n
+                        10:00-11:00 | Discover the Rock Candy Caves \n
+                        11:00-18:00 | Indulge in a Chocolate Fondue Party at Choco Lagoon \n
+
+                        
+                        #Day 5: Farewell to the Sweet Paradise \n
+                        08:00-10:00 | Breakfast at Pancake Palace \n
+                        10:00-12:00 | Last-minute shopping at the Bonbon Bazaar \n
+                        12:00-20:00 | Sweet Departure with Goodie Bag from Wonka's Factory Shop \n
                         
                         #Additional Suggestions:
                         bullet point: Buy Myki card for the Australian public transport
