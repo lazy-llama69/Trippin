@@ -96,15 +96,17 @@ def plan_my_trip():
                         6. Be detailed and have an estimated time for each activity 
                         7. Include the preferences separated by new line below the travel name.
                         8. Be specific with the names of the places to dine and the tourist attractions.
-                        9. Ensure the itinerary accomadates the additional requirements strictly 
-                        10. Make the travel name font size big so it stands out
                         11. If location is empty, please put a specific place to go. 
                         12. If additional requirements is empty, keep additonal requirements none, do not generate a prompt for additional requirements
-                        13. Have a total time next to each of the short description for each day
                         14. Try to make it a full day experience from 8:00 till 22:00 unless stated otherwise in additional requirements
-                        15. Use this | symbol to separate the time and the activity for each day and then remember to line break after each activity
+                        15. Use this | symbol to separate the time and the activity for each day and then ALWAYS INCLUDE line break after each activity
                         16. After the final day in the itinerary, include additional suggestions that would be useful and beneficial for the tourist during the trip regarding (public transport, culture rules, etc.)
 
+                        
+                        Must include:
+                        - Line break after each activity in a day
+                        - The itinerary duration is equal to the number of days in preferences
+                        
                         Example Format:
                         
                         **Travel Name**: "Journey to Paris: A Culinary Adventure"
@@ -126,6 +128,7 @@ def plan_my_trip():
                         #Additional Suggestions:
                         bullet point: Buy Myki card for the Australian public transport
                         bullet point: Take off your shoes when entering people's homes. 
+
                     """},
                 ],
                 max_tokens=2500
