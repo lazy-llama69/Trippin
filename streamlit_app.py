@@ -93,18 +93,20 @@ st.markdown(
 
 # Navigation Bar (properly aligned to the right)
 st.markdown('<div class="nav-container">', unsafe_allow_html=True)
-col1, col2, col3, col4 = st.columns([8, 1, 1.5, 0.6])  # Push buttons to the right
+col1, col2, col3, col4, col5 = st.columns([7, 1, 1.5, 1.8, 1.5])  # Push buttons to the right
 
 with col1:
-    if st.button("Trippin", key="home_tab"):
-        switch_tab("Home")
+    st.image("assets/logo.png", width=300)
 with col2:
+    if st.button("Home", key="home_tab"):
+        switch_tab("Home")
+with col3:
     if st.button("Plan My Trip", key="trip_tab"):
         switch_tab("Plan My Trip")
-with col3:
+with col4:
     if st.button("Currency Converter", key="convert_tab"):
         switch_tab("Convert")
-with col4:
+with col5:
     if st.button("Chat", key="chat_tab"):
         switch_tab("Chat")
 st.markdown('</div>', unsafe_allow_html=True)
@@ -125,6 +127,73 @@ if st.session_state["active_tab"] == "Home":
         if st.button("Get started—it's free", key="get_started"):
             switch_tab("Plan My Trip")  # Redirect to "Plan My Trip" tab
 
+    st.markdown("<h2 style='text-align: center;'>🌟 Tourist Recommendations 🌟</h2>", unsafe_allow_html=True)
+
+    trip_col1, trip_col2, trip_col3 = st.columns(3)
+
+    if "selected_trip" not in st.session_state:
+        st.session_state.selected_trip = None
+
+    # Recommended Trip 1
+    with trip_col1:
+        st.image("assets/bali.jpg", use_column_width=True)
+        st.markdown("### Bali, Indonesia")
+        st.write("Experience breathtaking beaches, lush jungles, and vibrant culture.")
+        if st.button("View", key="bali"):
+            st.session_state.selected_trip = "Bali"
+
+    # Recommended Trip 2
+    with trip_col2:
+        st.image("assets/paris.webp", use_column_width=True)
+        st.markdown("### Paris, France")
+        st.write("Visit the City of Love and explore its iconic landmarks and cafes.")
+        if st.button("View", key="paris"):
+            st.session_state.selected_trip = "Paris"
+
+    # Recommended Trip 3
+    with trip_col3:
+        st.image("assets/tokyo.webp", use_column_width=True)
+        st.markdown("### Tokyo, Japan")
+        st.write("Discover a mix of futuristic cityscapes and traditional temples.")
+        if st.button("View", key="tokyo"):
+            st.session_state.selected_trip = "Tokyo"
+
+    st.markdown("<hr>", unsafe_allow_html=True)  # Add a separator
+
+
+    if st.session_state.selected_trip == "Bali":
+        st.markdown("### 🌴 Best Places to Visit in Bali:")
+        st.write("- **Uluwatu Temple** – Stunning cliffside views.")
+        st.write("- **Tegallalang Rice Terraces** – Breathtaking landscapes.")
+        st.write("- **Seminyak Beach** – Perfect for sunset lovers.")
+
+        st.markdown("### 🍽️ Top Restaurants in Bali:")
+        st.write("- **Locavore** – Award-winning fine dining.")
+        st.write("- **Naughty Nuri’s** – Famous for ribs and cocktails.")
+
+    elif st.session_state.selected_trip == "Paris":
+        st.markdown("### 🗼 Best Places to Visit in Paris:")
+        st.write("- **Eiffel Tower** – A must-see iconic landmark.")
+        st.write("- **Louvre Museum** – Home of the Mona Lisa.")
+        st.write("- **Champs-Élysées** – Perfect for shopping and cafes.")
+
+        st.markdown("### 🍽️ Top Restaurants in Paris:")
+        st.write("- **Le Meurice** – Michelin-starred luxury dining.")
+        st.write("- **Le Petit Cambodge** – Amazing local food.")
+
+    elif st.session_state.selected_trip == "Tokyo":
+        st.markdown("### 🎌 Best Places to Visit in Tokyo:")
+        st.write("- **Shibuya Crossing** – The world’s busiest intersection.")
+        st.write("- **Senso-ji Temple** – Tokyo’s most famous temple.")
+        st.write("- **Akihabara** – A paradise for anime and gaming lovers.")
+
+        st.markdown("### 🍣 Top Restaurants in Tokyo:")
+        st.write("- **Sukiyabashi Jiro** – World-famous sushi restaurant.")
+        st.write("- **Ichiran Ramen** – Best solo ramen experience.")
+
+
+
+
 elif st.session_state["active_tab"] == "Plan My Trip":
     plan_my_trip()
 
@@ -132,6 +201,11 @@ elif st.session_state["active_tab"] == "Chat":
     st.header("Chat with AI")
     st.write("Ask travel-related questions and get instant recommendations.")
     generate_chat_response()
+
+# streamlit_app.py (excerpt)
+elif st.session_state["active_tab"] == "Itinerary":
+    from itinerary import display_itinerary  # Import the function
+    display_itinerary()  # Call it to render the layout
 
 elif st.session_state["active_tab"] == "Convert":
     get_conversion()
