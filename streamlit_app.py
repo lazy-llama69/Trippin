@@ -5,6 +5,7 @@ import os
 from chatbot import generate_chat_response  
 from planmytrip import plan_my_trip
 from conversion import get_conversion
+from glowup import glowing
 from planmytrip import generate_itinerary
 
 
@@ -381,3 +382,6 @@ elif st.session_state["active_tab"] == "Itinerary":
 
 elif st.session_state["active_tab"] == "Convert":
     get_conversion()
+
+elif st.session_state["active_tab"] == "Glow Up":
+    glowing()
