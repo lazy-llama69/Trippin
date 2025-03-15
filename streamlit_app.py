@@ -176,7 +176,7 @@ if st.session_state["active_tab"] == "Home":
 
     # Recommended Trip 1
     with trip_col1:
-        st.image("assets/bali.jpg", use_column_width=True)
+        st.image("assets/bali.jpg", use_container_width=True)
         st.markdown("### Bali, Indonesia")
         st.write("Experience breathtaking beaches, lush jungles, and vibrant culture.")
         if st.button("View", key="bali", type="primary"):
@@ -184,7 +184,7 @@ if st.session_state["active_tab"] == "Home":
 
     # Recommended Trip 2
     with trip_col2:
-        st.image("assets/paris.webp", use_column_width=True)
+        st.image("assets/paris.webp", use_container_width=True)
         st.markdown("### Paris, France")
         st.write("Visit the City of Love and explore its iconic landmarks and cafes.")
         if st.button("View", key="paris",type="primary"):
@@ -192,7 +192,7 @@ if st.session_state["active_tab"] == "Home":
 
     # Recommended Trip 3
     with trip_col3:
-        st.image("assets/tokyo.webp", use_column_width=True)
+        st.image("assets/tokyo.webp", use_container_width=True)
         st.markdown("### Tokyo, Japan")
         st.write("Discover a mix of futuristic cityscapes and traditional temples.")
         if st.button("View", key="tokyo", type="primary"):
