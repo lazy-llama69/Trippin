@@ -39,8 +39,6 @@ def display_itinerary():
     unsafe_allow_html=True
     )
 
-    
-
     # Create two columns: left for itinerary, right for map
     left_col, right_col = st.columns([1, 1]) 
  

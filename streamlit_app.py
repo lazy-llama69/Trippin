@@ -5,6 +5,8 @@ import os
 from chatbot import generate_chat_response  
 from planmytrip import plan_my_trip
 from conversion import get_conversion
+from planmytrip import generate_itinerary
+
 
 # Load environment variables from .env file
 load_dotenv()
@@ -122,9 +124,27 @@ if st.session_state["active_tab"] == "Home":
         if st.button("Get started Now", key="get_started", type="primary"):
             switch_tab("Plan My Trip")  # Redirect to "Plan My Trip" tab
 
+
+        user_preferences = {
+                "destination": "random location",
+                "travel_date": "none",
+                "num_days": "reasonable number of days",
+                "budget": "reasonable budget",
+                "companions": "either solo, family, friends or couple",
+                "activities": "any activities",
+                "dietary_options": "none",
+                "additional_requirements": "none"
+        }
+
+        if st.button("Inspire me where to go"):
+            st.session_state["destination"] = "random location"
+            st.session_state["itinerary"] = generate_itinerary(user_preferences)
+            st.session_state["active_tab"] = "Itinerary"
+            st.rerun()
+
     st.write("")
     st.write("")
-    st.markdown("<h2 style='text-align: center;'>🌟 Tourist Recommendations 🌟</h2>", unsafe_allow_html=True)
+    st.subheader("🌟 Tourist Recommendations")
 
     trip_col1, trip_col2, trip_col3 = st.columns(3)
 
@@ -280,8 +300,8 @@ if st.session_state["active_tab"] == "Home":
 
         st.markdown("Safe travels! 🌍✨")
         st.markdown("<hr>", unsafe_allow_html=True)  # Add a separator
-
-    st.markdown("<h2 style='text-align: center;'>💡 Travel FAQs 💡</h2>", unsafe_allow_html=True)
+        
+    st.subheader("💡 Travel FAQs ")
 
     st.write("Find answers to common travel questions below! Click on any category to expand.")
 

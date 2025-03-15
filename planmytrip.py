@@ -66,7 +66,26 @@ def plan_my_trip():
                 "additional_requirements": additional_requirements
             }
 
-            response = openai.chat.completions.create(
+     
+            itinerary = generate_itinerary(user_preferences)
+            st.session_state["itinerary"] = itinerary
+            st.session_state["destination"] = extract_location(itinerary)  
+            st.session_state["active_tab"] = "Itinerary"
+            st.rerun()
+            # places = extract_places(itinerary)
+
+            # Get price estimations for each place
+            # price_estimations = get_price_estimations(places)
+
+            # Display the generated itinerary with price estimations
+            # st.markdown("### Your Custom Itinerary")
+            # st.write(itinerary)
+            # st.markdown("### Price Estimations")
+            # st.write(price_estimations)
+
+
+def generate_itinerary(user_preferences):
+    response = openai.chat.completions.create(
                 model="gpt-3.5-turbo",
                 messages=[
                     {"role": "system", "content": "You are a helpful travel assistant that generates fun and customized travel itineraries."},
@@ -84,7 +103,7 @@ def plan_my_trip():
                         
                         Please strictly follow the instructions below:
                         
-                        1. **Travel Name**: Generate a catchy, funny, and engaging name for the trip, like "Journey to {destination}, make it ".
+                        1. **Travel Name**: Generate a catchy, funny, and engaging name for the trip, like "Journey to {user_preferences['destination']}, make it ".
                         2. For each day of the itinerary, use headers with the day number and a short description.
                         3. For each day's activities, DO NOT use **bullet points**.
                         4. Make **important keywords bold**: 
@@ -150,23 +169,7 @@ def plan_my_trip():
                 ],
                 max_tokens=2500
             )
-
-
-            itinerary = response.choices[0].message.content
-            st.session_state["itinerary"] = itinerary
-            st.session_state["destination"] = extract_location(itinerary)  
-            st.session_state["active_tab"] = "Itinerary"
-            st.rerun()
-            # places = extract_places(itinerary)
-
-            # Get price estimations for each place
-            # price_estimations = get_price_estimations(places)
-
-            # Display the generated itinerary with price estimations
-            # st.markdown("### Your Custom Itinerary")
-            # st.write(itinerary)
-            # st.markdown("### Price Estimations")
-            # st.write(price_estimations)
+    return response.choices[0].message.content
 
 def extract_location(itinerary):
     # Regex pattern to match text between 'for' and the colon
