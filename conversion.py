@@ -7,7 +7,7 @@ import os
 def get_conversion():
     # load_dotenv()
     # api_key = os.getenv("EXCHANGE_API_KEY")
-    api_key = st.secrets['EXCHANGE_API_KEY']
+    api_key = st.secrets['exchange']['api_key']
 
     st.markdown(
     """

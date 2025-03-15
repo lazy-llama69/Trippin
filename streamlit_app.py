@@ -13,7 +13,7 @@ from planmytrip import generate_itinerary
 load_dotenv()
 
 # Set your OpenAI API key
-openai.api_key = st.secrets['OPENAI_API_KEY']
+openai.api_key = st.secrets["openai"]["api_key"]
 
 # Set page configuration
 st.set_page_config(page_title="Trippin", layout="wide")
@@ -140,15 +140,15 @@ if st.session_state["active_tab"] == "Home":
     st.write("")
     
     
-    col1, col2, col3, col4 = st.columns([5.2, 2, 5,2])
+    col1, col2, col3, col4 = st.columns([2.5, 2, 2, 2])
 
     with col2:  # Center column
-        if st.button("Create An Itinerary", key="get_started", type="primary"):
+        if st.button("✍🏻 Create An Itinerary", key="get_started", type="primary"):
             switch_tab("Plan My Trip")  
   
     with col3:
         user_preferences = {
-                "destination": "random location",
+                "destination": "A random city",
                 "travel_date": "none",
                 "num_days": "reasonable number of days",
                 "budget": "reasonable budget",
@@ -157,17 +157,16 @@ if st.session_state["active_tab"] == "Home":
                 "dietary_options": "none",
                 "additional_requirements": "none"
         }
-        if st.button("Inspire me where to go",type="primary"):
+        if st.button("💭 Inspire me where to go",type="primary"):
             st.session_state["destination"] = "random location"
             st.session_state["itinerary"] = generate_itinerary(user_preferences)
             st.session_state["active_tab"] = "Itinerary"
             st.rerun()
 
         
-        
     st.write("")
     st.write("")
-    st.subheader("🌟 Tourist Recommendations")
+    st.subheader("Tourist Recommendations")
 
     trip_col1, trip_col2, trip_col3 = st.columns(3)
 
@@ -324,7 +323,7 @@ if st.session_state["active_tab"] == "Home":
         st.markdown("Safe travels! 🌍✨")
         st.markdown("<hr>", unsafe_allow_html=True)  # Add a separator
         
-    st.subheader("💡 Travel FAQs ")
+    st.subheader("Travel FAQs ")
 
     st.write("Find answers to common travel questions below! Click on any category to expand.")
 
