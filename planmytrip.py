@@ -2,6 +2,7 @@ import streamlit as st
 import openai
 from dotenv import load_dotenv
 import os
+import re
 from google_places import get_price_estimations
 
 # Load environment variables from .env file
@@ -105,10 +106,23 @@ def plan_my_trip():
 
             # Extract places from the response
             itinerary = response.choices[0].message.content
-            places = extract_places(itinerary)
+            
+            # Call OpenAI API to extract the list of places
+            places_response = openai.chat.completions.create(
+                model="gpt-3.5-turbo",
+                messages=[
+                    {"role": "system", "content": "You are a helpful travel assistant."},
+                    {"role": "user", "content": f"List all the places mentioned in the following itinerary: {itinerary}"}
+                ],
+                max_tokens=500
+            )
+
+            # Extract the list of places
+            places_list = places_response.choices[0].message.content.split("\n")
+
 
             # Get price estimations for each place
-            price_estimations = get_price_estimations(places)
+            price_estimations = get_price_estimations(places_list)
 
             # Display the generated itinerary with price estimations
             st.markdown("### Your Custom Itinerary")
@@ -117,6 +131,13 @@ def plan_my_trip():
             st.write(price_estimations)
 
 def extract_places(itinerary):
-    # Implement a function to extract place names from the itinerary text
-    # This is a placeholder implementation and should be replaced with actual logic
-    return ["Eiffel Tower", "Louvre Museum", "Notre-Dame Cathedral"]
+    # Use regular expressions to extract place names from the itinerary text
+    # This is a refined implementation to extract place names more accurately
+    place_pattern = re.compile(r'\b(?:[A-Z][a-z]+(?:\s+[A-Z][a-z]+)*)\b')
+    places = place_pattern.findall(itinerary)
+    
+    # Filter out common words that are not place names
+    common_words = set(["Sure", "Here", "Destination", "Travel", "Date", "March", "Duration", "Budget", "Low", "Companions", "Solo", "Activities", "Exploring", "Dietary", "Options", "Vegetarian", "Additional", "Requirements", "Comfortable", "Day", "Arrival", "Check", "Try", "Temples", "Cultural", "Sites", "Take", "River", "Explore", "Trip", "World", "Heritage", "Site", "Food", "Tour", "Join", "Experience", "Relaxation", "Spa", "Indulge", "Thai", "Relax", "Enjoy", "Shopping", "Markets", "Shop", "Center", "Bargain", "Departure", "Pack", "Transfer", "This"])
+    filtered_places = [place for place in places if place not in common_words]
+    
+    return filtered_places
