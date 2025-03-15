@@ -41,19 +41,6 @@ st.markdown(
 st.markdown(
     """
     <style>
-        /* Styling for the Trippin button text */
-        # div[data-testid="stButton"] > button {
-        #     font-size: 24px !important;  /* Larger font */
-        #     font-weight: bold !important;
-        #     color: #FF7F9F !important;  /* Pink text */
-        #     background: none !important;
-        #     border: none !important;
-        #     cursor: pointer;
-        # }
-
-        # div[data-testid="stButton"] > button:hover {
-        #     text-decoration: underline;
-        # }
 
         button[kind="primary"] {
             background-color: #FF7F9F;
@@ -84,18 +71,17 @@ st.markdown(
 
 # Navigation Bar (properly aligned to the right)
 st.markdown('<div class="nav-container">', unsafe_allow_html=True)
-col1, col2, col3, col4, col5, col6= st.columns([8, 1, 1.4, 1.9, 1.5, 1])  # Push buttons to the right
+col1, col2, col3, col4, col5, col6= st.columns([6,1,1.3,1.7,1,1])  # Push buttons to the right
 
 st.markdown(
     """
-    <style>
-        /* Hide the enlarge icon beside images */
-        .css-1lcbm11 {
-            display: none !important;
-        }
-    </style>
-    """,
-    unsafe_allow_html=True
+<style>
+button[title="View fullscreen"] {
+    display: none;
+}
+</style>
+""",
+    unsafe_allow_html=True,
 )
 with col1:
     st.image("assets/trippin_logo.png", width=220)
