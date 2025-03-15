@@ -3,7 +3,6 @@ import openai
 from dotenv import load_dotenv
 import os
 import re
-# from google_places import get_price_estimations
 from streamlit_extras.switch_page_button import switch_page
 
 # Load environment variables from .env file
