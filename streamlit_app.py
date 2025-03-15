@@ -84,8 +84,19 @@ st.markdown(
 
 # Navigation Bar (properly aligned to the right)
 st.markdown('<div class="nav-container">', unsafe_allow_html=True)
-col1, col2, col3, col4, col5 = st.columns([7, 1, 1.5, 1.8, 1.5])  # Push buttons to the right
+col1, col2, col3, col4, col5, col6= st.columns([8, 1, 1.4, 1.9, 1.5, 1])  # Push buttons to the right
 
+st.markdown(
+    """
+    <style>
+        /* Hide the enlarge icon beside images */
+        .css-1lcbm11 {
+            display: none !important;
+        }
+    </style>
+    """,
+    unsafe_allow_html=True
+)
 with col1:
     st.image("assets/trippin_logo.png", width=220)
 with col2:
@@ -98,6 +109,9 @@ with col4:
     if st.button("Currency Converter", key="convert_tab"):
         switch_tab("Convert")
 with col5:
+    if st.button("Glow Up", key="glowup_tab"):
+        switch_tab("Glow Up")
+with col6:
     if st.button("Chat", key="chat_tab"):
         switch_tab("Chat")
 st.markdown('</div>', unsafe_allow_html=True)
@@ -113,14 +127,17 @@ if st.session_state["active_tab"] == "Home":
     """,
     unsafe_allow_html=True
 )
+    st.write("")
+
     
-    
-    col1, col2, col3 = st.columns([5, 2, 5])
+    col1, col2, col3 = st.columns([5.2, 2, 5])
 
     with col2:  # Center column
         if st.button("Get started Now", key="get_started", type="primary"):
             switch_tab("Plan My Trip")  # Redirect to "Plan My Trip" tab
 
+    st.write("")
+    st.write("")
     st.markdown("<h2 style='text-align: center;'>🌟 Tourist Recommendations 🌟</h2>", unsafe_allow_html=True)
 
     trip_col1, trip_col2, trip_col3 = st.columns(3)
