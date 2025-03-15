@@ -21,52 +21,26 @@ def get_coordinates(location):
     except Exception as e:
         st.error(f"Geocoding error: {e}")
         return None
-
-def display_itinerary():
-    # Remove padding and margins from the main container
-    # Add a back button
-
-    st.markdown(
+    
+def convert_markdown_to_html(text):
     """
-    <style>
-        .block-container {
-            padding-top: 1rem !important; /* Adjust the top padding */
-            padding-left: 6rem;
-            padding-right: 6rem;
-        }
-    </style>
-    """,
-    unsafe_allow_html=True
-    )
-
+    Convert markdown-style text (e.g., **bold**, ### header) to HTML-like formatting
+    """
+    # Convert **bold** to <b>bold</b>
+    text = re.sub(r'\*\*(.*?)\*\*', r'<b>\1</b>', text)
     
-
-    # Create two columns: left for itinerary, right for map
-    left_col, right_col = st.columns([1, 1]) 
- 
+    # Convert ### to <h3> header
+    text = re.sub(r'###(.*?)\n', r'<h3>\1</h3>\n', text)
     
-    st.markdown("<h2 style='text-align: center;'>Here's Your Personalised Itinerary</h2>", unsafe_allow_html=True)
+    # Convert ## to <h2> header
+    text = re.sub(r'##(.*?)\n', r'<h2>\1</h2>\n', text)
+    
+    # Convert # to <h1> header
+    text = re.sub(r'#(.*?)\n', r'<h1>\1</h1>\n', text)
+    
+    return text
 
-
-    def convert_markdown_to_html(text):
-        """
-        Convert markdown-style text (e.g., **bold**, ### header) to HTML-like formatting
-        """
-        # Convert **bold** to <b>bold</b>
-        text = re.sub(r'\*\*(.*?)\*\*', r'<b>\1</b>', text)
-        
-        # Convert ### to <h3> header
-        text = re.sub(r'###(.*?)\n', r'<h3>\1</h3>\n', text)
-        
-        # Convert ## to <h2> header
-        text = re.sub(r'##(.*?)\n', r'<h2>\1</h2>\n', text)
-        
-        # Convert # to <h1> header
-        text = re.sub(r'#(.*?)\n', r'<h1>\1</h1>\n', text)
-        
-        return text
-
-    def generate_pdf(itinerary_content):
+def generate_pdf(itinerary_content):
         buffer = BytesIO()
         # Set up the PDF document
         doc = SimpleDocTemplate(buffer, pagesize=letter)
@@ -92,6 +66,30 @@ def display_itinerary():
         buffer.seek(0)
         return buffer
 
+def display_itinerary():
+    # Remove padding and margins from the main container
+    # Add a back button
+
+    st.markdown(
+    """
+    <style>
+        .block-container {
+            padding-top: 1rem !important; /* Adjust the top padding */
+            padding-left: 6rem;
+            padding-right: 6rem;
+        }
+    </style>
+    """,
+    unsafe_allow_html=True
+    )
+
+    
+
+    # Create two columns: left for itinerary, right for map
+    left_col, right_col = st.columns([1, 1]) 
+ 
+    
+    st.markdown("<h2 style='text-align: center;'>Here's Your Personalised Itinerary</h2>", unsafe_allow_html=True)
     
     left_margin, left_col, right_col, right_margin = st.columns([0.2, 1.5, 1, 0.2])
 
