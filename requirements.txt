@@ -7,3 +7,4 @@ streamlit_extras
 streamlit_folium
 geopy
 folium
+openai
