@@ -119,7 +119,6 @@ if st.session_state["active_tab"] == "Home":
         if st.button("Get started—it's free", key="get_started"):
             switch_tab("Plan My Trip")  
 
-    
 
 elif st.session_state["active_tab"] == "Plan My Trip":
     plan_my_trip()

@@ -1,9 +1,13 @@
 import streamlit as st
 import google.generativeai as genai
+from dotenv import load_dotenv
+import os
 
-# Configure Gemini API key from Streamlit secrets
-# genai.configure(api_key=st.secrets["GEMINI"]["GEMINI_API_KEY"])
-genai.configure(api_key="AIzaSyAHBdAQOzjZiAXUkWD-TjzymkwDd7kxB5g")
+# Load environment variables from .env file
+load_dotenv()
+# Configure Gemini API key from environment variable
+api_key = os.getenv("GEMINI_API_KEY")
+genai.configure(api_key=api_key)
 model = genai.GenerativeModel('gemini-1.5-flash')
 
 def generate_chat_response():
