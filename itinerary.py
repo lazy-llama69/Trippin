@@ -25,6 +25,9 @@ def get_coordinates(location):
 def display_itinerary():
     # Remove padding and margins from the main container
     # Add a back button
+    if st.button("Back"):
+        st.session_state["active_tab"] = "Plan My Trip"
+        st.rerun()
     st.markdown(
     """
     <style>
@@ -39,11 +42,13 @@ def display_itinerary():
     )
 
     
-    # st.title("Your Custom Itinerary")
+
     # Create two columns: left for itinerary, right for map
-    # left_col, right_col = st.columns([1, 1])  # 2:1 ratio
+    left_col, right_col = st.columns([1, 1]) 
+ 
     
     st.markdown("<h2 style='text-align: center;'>Here's Your Personalised Itinerary</h2>", unsafe_allow_html=True)
+
 
     def convert_markdown_to_html(text):
         """
@@ -88,6 +93,7 @@ def display_itinerary():
 
         buffer.seek(0)
         return buffer
+
     
     left_margin, left_col, right_col, right_margin = st.columns([0.2, 1.5, 1, 0.2])
 
@@ -97,15 +103,7 @@ def display_itinerary():
         st.write(itinerary_text)
         formatted_itinerary = convert_markdown_to_html(itinerary_text)
         pdf = generate_pdf(formatted_itinerary)
-        st.write("---")
-        st.write("")
         st.download_button("Download Itinerary as PDF", data=pdf, file_name="itinerary.pdf", mime="application/pdf")
-        st.write("")
-        if st.button("Back"):
-            st.session_state["active_tab"] = "Plan My Trip"
-            st.rerun()
-        st.write("")
-
 
     with right_col:
         st.subheader("Map of Your Destination")
