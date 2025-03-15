@@ -4,7 +4,7 @@ from dotenv import load_dotenv
 import os
 
 # Configure Gemini API key from environment variable
-genai.configure(api_key=st.secrets["GEMINI_API_KEY"])
+genai.configure(api_key=st.secrets["gemini"]["api_key"])
 model = genai.GenerativeModel('gemini-1.5-flash')
 
 def generate_chat_response():

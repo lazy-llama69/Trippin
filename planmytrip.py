@@ -5,21 +5,20 @@ import os
 import re
 from streamlit_extras.switch_page_button import switch_page
 
-# Set your OpenAI API key
-openai.api_key = st.secrets['OPENAI_API_KEY']
+openai.api_key = st.secrets["openai"]["api_key"]
 
 def plan_my_trip():
     st.markdown(
-    """
-    <style>
-        .block-container {
-            padding-top: 1rem !important; /* Adjust the top padding */
-            padding-left: 6rem;
-            padding-right: 6rem;
-        }
-    </style>
-    """,
-    unsafe_allow_html=True
+        """
+        <style>
+            .block-container {
+                padding-top: 1rem !important; /* Adjust the top padding */
+                padding-left: 6rem;
+                padding-right: 6rem;
+            }
+        </style>
+        """,
+        unsafe_allow_html=True
     )
 
     st.markdown("<h1 style='text-align: center;'>Tell us your travel preferences</h1>", unsafe_allow_html=True)
@@ -49,7 +48,7 @@ def plan_my_trip():
         additional_requirements = st.text_area("Enter any specific locations, allergens, or preferences:", placeholder="E.g., I want to visit the Eiffel Tower, avoid peanuts...", key="additional_requirements_input")
         st.markdown("---")
 
-        submit = st.button("Submit", key="submit_preferences",type="primary")
+        submit = st.button("Submit", key="submit_preferences", help="Generate your custom itinerary", type="primary")
 
         if submit:
             user_preferences = {
@@ -63,23 +62,26 @@ def plan_my_trip():
                 "additional_requirements": additional_requirements
             }
 
-     
+            # 1) Generate the itinerary (first GPT call)
             itinerary = generate_itinerary(user_preferences)
             st.session_state["itinerary"] = itinerary
-            st.session_state["destination"] = extract_location(itinerary)  
+
+            # 2) Extract places (second GPT call)
+            places_json = extract_places_gpt(itinerary)
+
+            # Basic validation before storing
+            if not places_json.strip().startswith('['):
+                st.error("Failed to extract valid places data")
+                places_json = "[]"  # Fallback empty array
+
+            st.session_state["addresses_data"] = places_json
+
+            # 3) Extract location (regex-based function)
+            st.session_state["destination"] = extract_location(itinerary)
+
+            # 4) Switch to the itinerary tab and rerun
             st.session_state["active_tab"] = "Itinerary"
             st.rerun()
-            # places = extract_places(itinerary)
-
-            # Get price estimations for each place
-            # price_estimations = get_price_estimations(places)
-
-            # Display the generated itinerary with price estimations
-            # st.markdown("### Your Custom Itinerary")
-            # st.write(itinerary)
-            # st.markdown("### Price Estimations")
-            # st.write(price_estimations)
-
 
 def generate_itinerary(user_preferences):
     with st.spinner("Generating your personalized itinerary..."):
@@ -117,7 +119,6 @@ def generate_itinerary(user_preferences):
                     14. Try to make it a full day experience from 8:00 till 22:00 unless stated otherwise in additional requirements
                     15. Use this | symbol to separate the time and the activity for each day and then ALWAYS INCLUDE line break after each activity
                     16. After the final day in the itinerary, include additional suggestions that would be useful and beneficial for the tourist during the trip regarding (public transport, culture rules, etc.)
-
                     
                     Must include:
                     - Line break after each activity in a day
@@ -133,57 +134,59 @@ def generate_itinerary(user_preferences):
                     10:00-11:00 | Visit the **Eiffel Tower** \n
                     11:00-11:30 | Enjoy a meal at **Le Cinq** (Michelin Star restaurant) \n
                     11:30-12:00 | Relax at **Tuileries Gardens** \n
-                    
-                    
-                    #Day 2: Exploring Marrakech \n
-                    10:00-12:00 | Visit the iconic **Jardin Majorelle** \n
-                    12:00-13:30 | Discover the historic **Bahia Palace** \n
-                    13:30-15:30 | Explore the bustling **Jemaa el-Fnaa** square \n
-                    15:30-16:30 | Try tasty street food at Food Stalls in **Jemaa el-Fnaa** \n
-
-                    
-                    #Day 3: Sweet Sights and Sounds \n
-                    08:00-10:00 | Explore Gummy Bear Forest \n
-                    10:00-12:00 | Visit the Marshmallow Mountains \n
-                    18:00-22:00 | Lunch at Caramel Cove \n
-
-                    
-                    #Day 4: Chocolate River Cruise \n
-                    08:00-10:00 | Scenic Chocolate River Cruise \n
-                    10:00-11:00 | Discover the Rock Candy Caves \n
-                    11:00-18:00 | Indulge in a Chocolate Fondue Party at Choco Lagoon \n
-
-                    
-                    #Day 5: Farewell to the Sweet Paradise \n
-                    08:00-10:00 | Breakfast at Pancake Palace \n
-                    10:00-12:00 | Last-minute shopping at the Bonbon Bazaar \n
-                    12:00-20:00 | Sweet Departure with Goodie Bag from Wonka's Factory Shop \n
-                    
-                    #Additional Suggestions:
-                    bullet point: Buy Myki card for the Australian public transport
-                    bullet point: Take off your shoes when entering people's homes. 
-
                 """},
             ],
             max_tokens=2500
         )
     return response.choices[0].message.content
 
+def extract_places_gpt(itinerary_text):
+    """
+    Use a second GPT call to extract distinct places from the itinerary.
+    Returns the structured information as JSON text.
+    """
+    prompt = f"""
+        Extract distinct major landmarks and well-known places from this itinerary:
+        {itinerary_text}
+
+        Return JSON array with these keys for each entry:
+        - "name": Exact place name (e.g., "Eiffel Tower")
+        - "category": Type (Landmark, Museum, Restaurant)
+        - "shortDescription": Brief 5-7 word description
+        - "address": Full address if mentioned, else empty
+
+        Rules:
+        1. Only include internationally recognized places
+        2. Exclude generic/local businesses
+        3. Return ONLY valid JSON (no text/formatting outside the array)
+        4. Ensure proper JSON syntax with double quotes
+        5. Response must start with '[' and end with ']'
+        6. Do not include backticks, comments, or any text before/after the JSON
+
+        Example:
+        [
+        {{
+            "name": "Tokyo Disneyland",
+            "category": "Theme Park",
+            "shortDescription": "Famous Disney theme park in Japan",
+            "address": "1-1 Maihama, Urayasu, Chiba 279-0031, Japan"
+        }}
+        ]
+    """
+    with st.spinner("Extracting places from the itinerary..."):
+        response = openai.chat.completions.create(
+            model="gpt-3.5-turbo",
+            messages=[
+                {"role": "system", "content": "You are an assistant that extracts structured place information from text."},
+                {"role": "user", "content": prompt},
+            ],
+            max_tokens=1000,
+            temperature=0
+        )
+    return response.choices[0].message.content
+
 def extract_location(itinerary):
-    # Regex pattern to match text between 'for' and the colon
+    # Regex pattern to match text between 'Location:' and the next newline
     pattern = r'Location:\s+([A-Za-z\s,]+)\n'
-    
-    # Search for the location using regex
     match = re.search(pattern, itinerary)
-    
-    # If a match is found, return the location
-    if match:
-        return match.group(1).strip()
-    else:
-        return None
-        
-def extract_places(itinerary):
-    # Implement a function to extract place names from the itinerary text
-    # This is a placeholder implementation and should be replaced with actual logic
-    return ["Eiffel Tower", "Louvre Museum", "Notre-Dame Cathedral"]
-         
+    return match.group(1).strip() if match else None

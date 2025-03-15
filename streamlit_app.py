@@ -13,7 +13,7 @@ from planmytrip import generate_itinerary
 load_dotenv()
 
 # Set your OpenAI API key
-openai.api_key = st.secrets['OPENAI_API_KEY']
+openai.api_key = st.secrets["openai"]["api_key"]
 
 # Set page configuration
 st.set_page_config(page_title="Trippin", layout="wide")
