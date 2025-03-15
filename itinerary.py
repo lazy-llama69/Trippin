@@ -29,19 +29,26 @@ def display_itinerary():
         st.session_state["active_tab"] = "Plan My Trip"
         st.rerun()
     st.markdown(
-        """
-        <style>
-            .block-container {
-                padding: 0rem;
-            }
-        </style>
-        """,
-        unsafe_allow_html=True
+    """
+    <style>
+        .block-container {
+            padding-top: 1rem !important; /* Adjust the top padding */
+            padding-left: 6rem;
+            padding-right: 6rem;
+        }
+    </style>
+    """,
+    unsafe_allow_html=True
     )
+
     
+
     # Create two columns: left for itinerary, right for map
     left_col, right_col = st.columns([1, 1]) 
+ 
     
+    st.markdown("<h2 style='text-align: center;'>Here's Your Personalised Itinerary</h2>", unsafe_allow_html=True)
+
 
     def convert_markdown_to_html(text):
         """
@@ -87,8 +94,11 @@ def display_itinerary():
         buffer.seek(0)
         return buffer
 
+    
+    left_margin, left_col, right_col, right_margin = st.columns([0.2, 1.5, 1, 0.2])
+
     with left_col:
-        st.header("Itinerary Details")
+        st.subheader("Itinerary Details")
         itinerary_text = st.session_state.get("itinerary", "No itinerary available.")
         st.write(itinerary_text)
         formatted_itinerary = convert_markdown_to_html(itinerary_text)
@@ -96,7 +106,7 @@ def display_itinerary():
         st.download_button("Download Itinerary as PDF", data=pdf, file_name="itinerary.pdf", mime="application/pdf")
 
     with right_col:
-        st.header("Map of Your Destination")
+        st.subheader("Map of Your Destination")
         destination = st.session_state.get("destination", "Unknown")
         coordinates = get_coordinates(destination)
         if coordinates:
@@ -109,6 +119,6 @@ def display_itinerary():
                 tooltip=destination
             ).add_to(m)
             # Render the map with full width and increased height
-            st_folium(m, width=None, height=600)
+            st_folium(m, width=None, height=400)
         else:
             st.write("Could not find coordinates for the destination.")
