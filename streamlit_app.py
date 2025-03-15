@@ -13,7 +13,7 @@ from planmytrip import generate_itinerary
 load_dotenv()
 
 # Set your OpenAI API key
-openai.api_key = os.getenv("OPENAI_API_KEY")
+openai.api_key = st.secrets['OPENAI_API_KEY']
 
 # Set page configuration
 st.set_page_config(page_title="Trippin", layout="wide")
@@ -145,10 +145,7 @@ if st.session_state["active_tab"] == "Home":
             st.rerun()
 
         
-         
         
-
-
     st.write("")
     st.write("")
     st.subheader("🌟 Tourist Recommendations")
