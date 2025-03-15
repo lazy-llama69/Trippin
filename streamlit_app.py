@@ -93,7 +93,7 @@ st.markdown(
 
 # Navigation Bar (properly aligned to the right)
 st.markdown('<div class="nav-container">', unsafe_allow_html=True)
-col1, col2, col3, col4 = st.columns([8, 1, 0.5, 1])  # Push buttons to the right
+col1, col2, col3, col4 = st.columns([8, 1, 1.5, 0.6])  # Push buttons to the right
 
 with col1:
     if st.button("Trippin", key="home_tab"):
@@ -102,11 +102,11 @@ with col2:
     if st.button("Plan My Trip", key="trip_tab"):
         switch_tab("Plan My Trip")
 with col3:
-    if st.button("Chat", key="chat_tab"):
-        switch_tab("Chat")
-with col4:
     if st.button("Currency Converter", key="convert_tab"):
         switch_tab("Convert")
+with col4:
+    if st.button("Chat", key="chat_tab"):
+        switch_tab("Chat")
 st.markdown('</div>', unsafe_allow_html=True)
 
 # Render content based on the active tab
