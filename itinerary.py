@@ -96,15 +96,29 @@ def display_itinerary():
         formatted_itinerary = convert_markdown_to_html(itinerary_text)
         pdf = generate_pdf(formatted_itinerary)
         st.download_button("Download Itinerary as PDF", data=pdf, file_name="itinerary.pdf", mime="application/pdf")
-
         # Add the ratings section
         st.markdown("### Ratings")
         map_locations = st.session_state.get("map_locations", {})
         for place, details in map_locations.items():
             if details:
-                st.write(f"{place}: Rating - {details.get('rating', 'Not available')}, Price Level - {details.get('price_level', 'Not available')}")
+                st.write(f"**{place}**")
+                st.write(f"Types: {', '.join(details.get('types', [])) if details.get('types') else 'Not available'}")
+                st.write(f"Rating: {details.get('rating', 'Not available')}")
+                st.write(f"Price Level: {details.get('price_level', 'Not available')}")
+                st.write(f"Opening Hours: {details.get('opening_hours', 'Not available')}")
+                st.write(f"Website: {details.get('website', 'Not available')}")
+                st.write(f"Top Review: {details.get('top_review', 'Not available')}")
+                st.write("---")
             else:
                 st.write(f"{place}: Rating - Not available, Price Level - Not available")
+
+        
+        st.write("")
+        st.download_button("Download Itinerary as PDF", data=pdf, file_name="itinerary.pdf", mime="application/pdf",type="primary")
+
+        if st.button("Back", type="primary"):
+            st.session_state["active_tab"] = "Plan My Trip"
+            st.rerun()
 
     with right_col:
         st.header("Map of Your Destination")
