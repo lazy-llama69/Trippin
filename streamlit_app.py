@@ -160,39 +160,128 @@ if st.session_state["active_tab"] == "Home":
 
     st.markdown("<hr>", unsafe_allow_html=True)  # Add a separator
 
+    travel_guide = {
+        "Bali": {
+            "days": "7-10 days",
+            "best_season": "Dry season (April - October)",
+            "cheapest_month": "February",
+            "attractions": [
+                "Uluwatu Temple – Stunning cliffside views.",
+                "Tegallalang Rice Terraces – Breathtaking landscapes.",
+                "Seminyak Beach – Perfect for sunset lovers.",
+                "Mount Batur – Sunrise trek for adventure seekers.",
+                "Nusa Penida – Spectacular cliffs and beaches."
+            ],
+            "activities": [
+                "Surfing at Kuta Beach.",
+                "Snorkeling or diving in Nusa Lembongan.",
+                "Balinese cooking class.",
+                "Traditional spa and wellness retreat.",
+                "Exploring Ubud’s Monkey Forest."
+            ],
+            "restaurants": [
+                "Locavore – Award-winning fine dining.",
+                "Naughty Nuri’s – Famous for ribs and cocktails.",
+                "Bambu – Authentic Indonesian cuisine.",
+                "Sardine – Great seafood with rice paddy views."
+            ],
+            "festivals": [
+                "Nyepi (March) – Balinese New Year, a day of silence.",
+                "Galungan & Kuningan – Celebrations of good over evil.",
+                "Bali Arts Festival (June - July) – Traditional performances."
+            ]
+        },
+        "Paris": {
+            "days": "5-7 days",
+            "best_season": "Spring (April - June) & Fall (September - November)",
+            "cheapest_month": "January",
+            "attractions": [
+                "Eiffel Tower – A must-see iconic landmark.",
+                "Louvre Museum – Home of the Mona Lisa.",
+                "Champs-Élysées – Perfect for shopping and cafes.",
+                "Seine River Cruise – Romantic boat tour.",
+                "Sacré-Cœur – Stunning views from Montmartre."
+            ],
+            "activities": [
+                "Visit art museums like Musée d'Orsay.",
+                "Enjoy a picnic at Jardin du Luxembourg.",
+                "Take a day trip to the Palace of Versailles.",
+                "Explore Parisian cafés and bakeries.",
+                "Watch a cabaret show at Moulin Rouge."
+            ],
+            "restaurants": [
+                "Le Meurice – Michelin-starred luxury dining.",
+                "Le Petit Cambodge – Amazing local food.",
+                "L’Ambroisie – A 3-star Michelin experience.",
+                "Bouillon Pigalle – Affordable and delicious French cuisine."
+            ],
+            "festivals": [
+                "Bastille Day (July 14) – Fireworks & celebrations.",
+                "Paris Fashion Week (March & September).",
+                "Nuit Blanche (October) – All-night art festival."
+            ]
+        },
+        "Tokyo": {
+            "days": "7-10 days",
+            "best_season": "Spring (March - May) & Fall (September - November)",
+            "cheapest_month": "February",
+            "attractions": [
+                "Shibuya Crossing – The world’s busiest intersection.",
+                "Senso-ji Temple – Tokyo’s most famous temple.",
+                "Akihabara – A paradise for anime and gaming lovers.",
+                "Shinjuku Gyoen – Beautiful park, great for cherry blossoms.",
+                "Tsukiji Outer Market – Fresh sushi experience."
+            ],
+            "activities": [
+                "Explore teamLab Planets Tokyo (digital art museum).",
+                "Watch a sumo wrestling match.",
+                "Shop for tech and anime merchandise in Akihabara.",
+                "Visit a themed café (Pokemon Café, Robot Restaurant, etc.).",
+                "Experience a traditional tea ceremony."
+            ],
+            "restaurants": [
+                "Sukiyabashi Jiro – World-famous sushi restaurant.",
+                "Ichiran Ramen – Best solo ramen experience.",
+                "Gonpachi – Known as 'The Kill Bill' restaurant.",
+                "Narisawa – Innovative fine dining experience."
+            ],
+            "festivals": [
+                "Sakura Festivals (March - April) – Cherry blossom season.",
+                "Sumidagawa Fireworks Festival (July).",
+                "Tokyo Game Show (September) – A must for gamers.",
+                "Shichi-Go-San (November) – Celebration for children."
+            ]
+        }
+    }
 
-    if st.session_state.selected_trip == "Bali":
-        st.markdown("### 🌴 Best Places to Visit in Bali:")
-        st.write("- **Uluwatu Temple** – Stunning cliffside views.")
-        st.write("- **Tegallalang Rice Terraces** – Breathtaking landscapes.")
-        st.write("- **Seminyak Beach** – Perfect for sunset lovers.")
+    if st.session_state.selected_trip:
+        st.subheader(f"🌍 {st.session_state.selected_trip} Travel Guide")
+        
+        st.markdown(f"**🗓️ Ideal Trip Duration:** {travel_guide[st.session_state.selected_trip]['days']}")
+        st.markdown(f"**🌤️ Best Season to Visit:** {travel_guide[st.session_state.selected_trip]['best_season']}")
+        st.markdown(f"**✈️ Cheapest Month for Flights:** {travel_guide[st.session_state.selected_trip]['cheapest_month']}")
 
-        st.markdown("### 🍽️ Top Restaurants in Bali:")
-        st.write("- **Locavore** – Award-winning fine dining.")
-        st.write("- **Naughty Nuri’s** – Famous for ribs and cocktails.")
+        col1, col2 = st.columns(2)
 
-    elif st.session_state.selected_trip == "Paris":
-        st.markdown("### 🗼 Best Places to Visit in Paris:")
-        st.write("- **Eiffel Tower** – A must-see iconic landmark.")
-        st.write("- **Louvre Museum** – Home of the Mona Lisa.")
-        st.write("- **Champs-Élysées** – Perfect for shopping and cafes.")
+        with col1:
+            st.markdown("### 🏛️ Top Attractions:")
+            for attraction in travel_guide[st.session_state.selected_trip]["attractions"]:
+                st.write(f"- {attraction}")
+            
+            st.markdown("### 🎭 Best Activities:")
+            for activity in travel_guide[st.session_state.selected_trip]["activities"]:
+                st.write(f"- {activity}")
 
-        st.markdown("### 🍽️ Top Restaurants in Paris:")
-        st.write("- **Le Meurice** – Michelin-starred luxury dining.")
-        st.write("- **Le Petit Cambodge** – Amazing local food.")
+        with col2:
+            st.markdown("### 🍽️ Must-Try Restaurants:")
+            for restaurant in travel_guide[st.session_state.selected_trip]["restaurants"]:
+                st.write(f"- {restaurant}")
+            
+            st.markdown("### 🎉 Festivals & Events:")
+            for festival in travel_guide[st.session_state.selected_trip]["festivals"]:
+                st.write(f"- {festival}")
 
-    elif st.session_state.selected_trip == "Tokyo":
-        st.markdown("### 🎌 Best Places to Visit in Tokyo:")
-        st.write("- **Shibuya Crossing** – The world’s busiest intersection.")
-        st.write("- **Senso-ji Temple** – Tokyo’s most famous temple.")
-        st.write("- **Akihabara** – A paradise for anime and gaming lovers.")
-
-        st.markdown("### 🍣 Top Restaurants in Tokyo:")
-        st.write("- **Sukiyabashi Jiro** – World-famous sushi restaurant.")
-        st.write("- **Ichiran Ramen** – Best solo ramen experience.")
-
-
-
+        st.markdown("Safe travels! 🌍✨")
 
 elif st.session_state["active_tab"] == "Plan My Trip":
     plan_my_trip()
@@ -209,5 +298,3 @@ elif st.session_state["active_tab"] == "Itinerary":
 
 elif st.session_state["active_tab"] == "Convert":
     get_conversion()
-
-
