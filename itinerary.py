@@ -58,6 +58,18 @@ def display_custom_map(places, api_key, center_lat=35.6895, center_lng=139.6917,
     center_lat, center_lng: map center coordinates (used if no places)
     zoom: initial zoom level (used if no places)
     """
+    st.markdown(
+    """
+    <style>
+        .block-container {
+            padding-top: 1rem !important; /* Adjust the top padding */
+            padding-left: 6rem;
+            padding-right: 6rem;
+        }
+    </style>
+    """,
+        unsafe_allow_html=True
+    )
     if places:  # If there are markers, generate JavaScript to fit bounds
         markers_js = """
         var bounds = new google.maps.LatLngBounds();
@@ -121,7 +133,8 @@ def display_custom_map(places, api_key, center_lat=35.6895, center_lng=139.6917,
     components.html(html_code, height=700)
 
 def display_itinerary():
-    col1, col2 = st.columns([3, 7])
+    # col1, col2 = st.columns([3, 7])
+
 
     st.markdown(
         """
@@ -132,12 +145,8 @@ def display_itinerary():
             background-color: #f5f5f7;
             color: #333;
         }
-        footer { display: none !important; }
-        .block-container {
-            max-width: 100% !important;
-            padding: 0 !important;
-            margin: 0 auto;
-        }
+        # footer { display: none !important; }
+
         [data-testid="column"] {
             height: calc(100vh - 80px);
             overflow: auto;
@@ -161,18 +170,13 @@ def display_itinerary():
             text-align: left;
             color: #222;
         }
-        .stDownloadButton > button, .stButton > button {
-            background-color: #4CAF50;
-            color: white;
-            padding: 0.6rem 1rem;
-            border-radius: 4px;
-            border: none;
-            font-weight: 600;
-            cursor: pointer;
+
+        .block-container {
+             padding-top: 1rem !important; /* Adjust the top padding */
+             padding-left: 6rem;
+             padding-right: 6rem;
         }
-        .stDownloadButton > button:hover, .stButton > button:hover {
-            background-color: #45a049;
-        }
+
         #map {
             border-radius: 8px;
             box-shadow: 0 2px 5px rgba(0,0,0,0.2);
@@ -181,7 +185,8 @@ def display_itinerary():
         """,
         unsafe_allow_html=True
     )
-
+    st.markdown("<h1 style='text-align: center;'>Here's Your Personalised Itinerary</h1>", unsafe_allow_html=True)
+    left_margin, col1, col2, right_margin = st.columns([0.1, 1.6, 1.4, 0.1])
     # Left Column: Itinerary Details
     with col1:
         st.markdown("<h2 style='text-align: center;'>Itinerary Details</h2>", unsafe_allow_html=True)

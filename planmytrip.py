@@ -130,7 +130,7 @@ def generate_itinerary(user_preferences):
                     
                     'preferences'
 
-                    #Day 1: Arrival in Paris \n
+                    Day 1: Arrival in Paris \n
                     10:00-11:00 | Visit the **Eiffel Tower** \n
                     11:00-11:30 | Enjoy a meal at **Le Cinq** (Michelin Star restaurant) \n
                     11:30-12:00 | Relax at **Tuileries Gardens** \n
