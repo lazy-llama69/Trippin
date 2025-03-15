@@ -1,5 +1,5 @@
 # Add your API key here for local testing (avoid committing this key in production!)
-GOOGLE_MAPS_API_KEY = ""
+GOOGLE_MAPS_API_KEY = "AIzaSyDO-7AwP9kpPhLvXo848g7PKFgYPQXSkkA"
 
 import streamlit as st
 import folium
@@ -233,101 +233,236 @@ def build_itinerary_markdown():
 # 3) Main display function
 ############################
 
+import streamlit as st
+import streamlit.components.v1 as components
+
+def display_custom_map(places, api_key, center_lat=35.6895, center_lng=139.6917, zoom=12):
+    """
+    places: list of dict, each with 'title', 'lat', 'lng', 'description' (optional), 'image_url' (optional)
+    api_key: your Google Maps JavaScript API key
+    center_lat, center_lng: map center
+    zoom: initial zoom level
+    """
+
+    # Build JS for creating each marker
+    markers_js = ""
+    for p in places:
+        # Escape quotes in description to avoid JS errors
+        desc = p.get('description', '').replace('"', '\\"')
+        img_url = p.get('image_url', '')
+        title = p.get('title', '').replace('"', '\\"')
+
+        markers_js += f"""
+            var marker = new google.maps.Marker({{
+                position: {{ lat: {p['lat']}, lng: {p['lng']} }},
+                map: map,
+                title: "{title}"
+            }});
+
+            var infowindow = new google.maps.InfoWindow({{
+                content: `
+                    <div style="min-width:200px">
+                        <h4>{title}</h4>
+                        {"<img src='" + img_url + "' style='max-width:200px;' />" if img_url else ""}
+                        <p>{desc}</p>
+                    </div>
+                `
+            }});
+
+            marker.addListener('click', function() {{
+                // Center and zoom on the marker
+                map.setCenter(marker.getPosition());
+                map.setZoom(15);
+                infowindow.open(map, marker);
+            }});
+        """
+
+    # Build the full HTML/JS
+    html_code = f"""
+    <html>
+    <head>
+      <style>
+        #map {{
+          height: 700px;
+          width: 100%;
+        }}
+      </style>
+    </head>
+    <body>
+      <div id="map"></div>
+      <script>
+        function initMap() {{
+          var center = {{ lat: {center_lat}, lng: {center_lng} }};
+          var map = new google.maps.Map(document.getElementById('map'), {{
+            zoom: {zoom},
+            center: center
+          }});
+
+          {markers_js}
+        }}
+      </script>
+      <script async
+        src="https://maps.googleapis.com/maps/api/js?key={api_key}&callback=initMap">
+      </script>
+    </body>
+    </html>
+    """
+
+    # Embed in Streamlit
+    components.html(html_code, height=700)
+
+
 def display_itinerary():
     # Create a two-column layout
     col1, col2 = st.columns([3, 7])  # 30% for details, 70% for map
     
     # Apply CSS to make the layout more robust
     st.markdown(
-        """
-        <style>
-        /* Make columns take full height */
-        [data-testid="column"] {
-            height: calc(100vh - 80px); /* Adjust if needed */
-            overflow: auto;
-        }
-        
-        /* Left column scrollable */
-        [data-testid="column"]:first-child {
-            overflow-y: auto;
-            background-color: #f9f9f9;
-            padding: 10px;
-            border-right: 1px solid #e0e0e0;
-            box-shadow: 2px 0 5px rgba(0,0,0,0.05);
-        }
-        
-        /* Map container shouldn't scroll */
-        [data-testid="column"]:nth-child(2) {
-            overflow: hidden;
-        }
-        
-        /* Full-width container */
-        .block-container {
-            max-width: 100% !important;
-            padding-left: 0 !important;
-            padding-right: 0 !important;
-        }
-        
-        /* Hide default streamlit footer */
-        footer {display: none !important;}
-        
-        /* Make sure map takes full height */
-        .folium-map {
-            height: calc(100vh - 130px) !important;
-        }
-        </style>
-        """,
-        unsafe_allow_html=True
-    )
+    """
+    <style>
+    /* Global font and background */
+    body {
+        font-family: "Inter", -apple-system, BlinkMacSystemFont, "Segoe UI", 
+                      Roboto, Helvetica, Arial, sans-serif;
+        background-color: #f5f5f7;
+        color: #333;
+    }
+
+    /* Remove default Streamlit footer */
+    footer { 
+        display: none !important; 
+    }
+
+    /* Full-width container */
+    .block-container {
+        max-width: 100% !important;
+        padding: 0 !important;
+        margin: 0 auto;
+    }
+
+    /* Make columns take full height */
+    [data-testid="column"] {
+        height: calc(100vh - 80px); /* Adjust if needed */
+        overflow: auto;
+    }
+
+    /* Left column scrollable with white card-like background */
+    [data-testid="column"]:first-child {
+        overflow-y: auto;
+        background-color: #ffffff;
+        padding: 2rem;
+        border-right: 1px solid #e0e0e0;
+        box-shadow: 2px 0 5px rgba(0,0,0,0.05);
+    }
+
+    /* Right column for map should not scroll */
+    [data-testid="column"]:nth-child(2) {
+        overflow: hidden;
+        background-color: #f5f5f7;
+        padding: 2rem;
+    }
+
+    /* Headings */
+    h2 {
+        font-weight: 600;
+        margin-top: 0.5rem;
+        margin-bottom: 1rem;
+        text-align: left;
+        color: #222;
+    }
+
+    h1, h2, h3, h4 {
+        font-family: "Inter", -apple-system, BlinkMacSystemFont, "Segoe UI", 
+                      Roboto, Helvetica, Arial, sans-serif;
+    }
+
+    /* Style the bullet points for the itinerary and lodging */
+    ul, ol {
+        margin-left: 1.5rem;
+        margin-bottom: 1rem;
+    }
+
+    li {
+        line-height: 1.6;
+        margin-bottom: 0.5rem;
+    }
+
+    /* PDF Download button styling */
+    .stDownloadButton > button {
+        background-color: #4CAF50;
+        color: white;
+        padding: 0.6rem 1rem;
+        border-radius: 4px;
+        border: none;
+        font-weight: 600;
+        cursor: pointer;
+    }
+    .stDownloadButton > button:hover {
+        background-color: #45a049;
+    }
+
+    /* Map container styling */
+    #map {
+        border-radius: 8px;
+        box-shadow: 0 2px 5px rgba(0,0,0,0.2);
+    }
+
+    </style>
+    """,
+    unsafe_allow_html=True
+)
+
 
     # LEFT COLUMN: Itinerary details
     with col1:
         st.markdown("<h2 style='text-align: center;'>Itinerary Details</h2>", unsafe_allow_html=True)
         
-        # Build the itinerary markdown from placeholders
-        itinerary_markdown = build_itinerary_markdown()
-        st.markdown(itinerary_markdown)
-        
-        # Generate and offer PDF download
-        formatted_itinerary = convert_markdown_to_html(itinerary_markdown)
-        pdf = generate_pdf(formatted_itinerary)
-        st.download_button(
-            "Download Itinerary as PDF",
-            data=pdf,
-            file_name="itinerary.pdf",
-            mime="application/pdf",
-            type="primary"
-        )
+        if "itinerary" in st.session_state:
+            real_itinerary = st.session_state["itinerary"]
+            st.markdown(real_itinerary)
+
+            # OPTIONAL: If you want to let users download the AI itinerary as PDF:
+            pdf_ai = generate_pdf(real_itinerary)
+            st.download_button(
+                "Download AI Itinerary as PDF",
+                data=pdf_ai,
+                file_name="AI_itinerary.pdf",
+                mime="application/pdf",
+                type="primary"
+            )
+        else:
+            st.markdown("No AI-generated itinerary found. Please generate one first.")
 
     # RIGHT COLUMN: Map
     with col2:
         st.markdown("<h2 style='text-align: center;'>Map of Your Destination</h2>", unsafe_allow_html=True)
+
+        # Example: Build a list of places from your itinerary_details
+        # Suppose you geocoded these or have known lat/lng for them:
+        sample_places = [
+            {
+                "title": "Tsukiji Outer Market",
+                "lat": 35.665498,
+                "lng": 139.770642,
+                "description": "A bustling market offering fresh seafood, local produce, and souvenirs.",
+                "image_url": "https://example.com/tsukiji.jpg"
+            },
+            {
+                "title": "Tokyo Skytree",
+                "lat": 35.7100627,
+                "lng": 139.8107004,
+                "description": "Tokyo Skytree is the tallest structure in Japan, offering panoramic views.",
+                "image_url": "https://example.com/skytree.jpg"
+            },
+            # Add as many as you want...
+        ]
+
+        # Center the map on Tokyo
+        display_custom_map(
+            places=sample_places,
+            api_key=GOOGLE_MAPS_API_KEY,
+            center_lat=35.6895,  # Tokyo
+            center_lng=139.6917,
+            zoom=12
+        )
         
-        # Use the placeholder user input location for the map
-        destination = location_input  # e.g. "Jakarta"
-        coordinates = get_coordinates(destination)
-        if coordinates:
-            lat, lng = coordinates
-            google_maps_url = (
-                f"https://www.google.com/maps/embed/v1/view?"
-                f"key={GOOGLE_MAPS_API_KEY}&center={lat},{lng}&zoom=12"
-            )
-            st.markdown(f"""
-                <iframe
-                width="100%"
-                height="700"
-                frameborder="0" style="border:0"
-                src="{google_maps_url}" allowfullscreen>
-                </iframe>
-            """, unsafe_allow_html=True)
-        else:
-            st.write("Could not find coordinates for the destination.")
-
-
-
-############################
-# 4) Run the app
-############################
-
-if __name__ == "__main__":
-    display_itinerary()
