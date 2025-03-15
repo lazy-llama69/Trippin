@@ -169,6 +169,7 @@ def generate_itinerary(user_preferences):
                 """},
             ],
             max_tokens=2500
+        )
     return response.choices[0].message.content
 
 def extract_places_gpt(itinerary_text):
