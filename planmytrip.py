@@ -173,7 +173,7 @@ def extract_places_gpt(itinerary_text):
         }}
         ]
     """
-    with st.spinner("Extracting places from the itinerary..."):
+    with st.spinner("Generating your personalized itinerary..."):
         response = openai.chat.completions.create(
             model="gpt-3.5-turbo",
             messages=[

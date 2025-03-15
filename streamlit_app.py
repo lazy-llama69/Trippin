@@ -148,7 +148,7 @@ if st.session_state["active_tab"] == "Home":
   
     with col3:
         user_preferences = {
-                "destination": "random location",
+                "destination": "A random city",
                 "travel_date": "none",
                 "num_days": "reasonable number of days",
                 "budget": "reasonable budget",
