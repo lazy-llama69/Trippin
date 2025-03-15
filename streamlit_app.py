@@ -112,20 +112,39 @@ if st.session_state["active_tab"] == "Home":
     <h1 style="text-align: center;">
         Say Goodbye to Travel Hassles, Hello to <span style="color: #FF7F9F;">Trippin AI!</span>
     </h1>
-    <p style="text-align: center; font-size:18px;">We create customized itineraries, provide currency conversion, and answer all your travel questions. Need help? Just ask our chatbot!</p>
+    """,
+    unsafe_allow_html=True
+    )
+    st.write("")
+    col1, col2, col3 = st.columns([1,9,3.4])
+    with col2:
+        st.markdown(
+    """
+    <p style="font-size:18px;">We create customized itineraries, provide currency conversion, and answer all your travel questions. Need help?</p>
+    """,
+    unsafe_allow_html=True
+    )
+
+    with col3:
+    
+        if st.button("Chat with our chatbot", type="secondary"):
+            switch_tab("Chat")
+
+    st.markdown(
+    """
     <p style="text-align: center; font-size:18px;">Can't decide where to go? No worries, we've got you covered! Explore unlimited travel inspirations with personalized itineraries ready just for you!</p>
     """,
     unsafe_allow_html=True
-)
-    
+    )
+
     st.write("")
+    
     
     col1, col2, col3, col4 = st.columns([5.2, 2, 5,2])
 
     with col2:  # Center column
         if st.button("Create An Itinerary", key="get_started", type="primary"):
             switch_tab("Plan My Trip")  
-
   
     with col3:
         user_preferences = {
