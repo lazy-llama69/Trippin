@@ -5,8 +5,22 @@ import os
 
 # Function to fetch exchange rates
 def get_conversion():
-    load_dotenv()
-    api_key = os.getenv("EXCHANGE_API_KEY")
+    # load_dotenv()
+    # api_key = os.getenv("EXCHANGE_API_KEY")
+    api_key = st.secrets['EXCHANGE_API_KEY']
+
+    st.markdown(
+    """
+    <style>
+        .block-container {
+            padding-top: 1rem !important; /* Adjust the top padding */
+            padding-left: 6rem;
+            padding-right: 6rem;
+        }
+    </style>
+    """,
+    unsafe_allow_html=True
+    )
 
     # Define currency options with full names
     currency_options = {
@@ -29,7 +43,7 @@ def get_conversion():
     target_currency = currency_options[target_currency_desc]
 
     # When the user clicks the "Convert" button
-    if st.button("Convert"):
+    if st.button("Convert",type="primary"):
         conversion_rate = get_exchange_rate(api_key, base_currency, target_currency)
         if conversion_rate:
             converted_amount = amount * conversion_rate

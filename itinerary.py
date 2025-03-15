@@ -21,48 +21,26 @@ def get_coordinates(location):
     except Exception as e:
         st.error(f"Geocoding error: {e}")
         return None
-
-def display_itinerary():
-    # Remove padding and margins from the main container
-    # Add a back button
-    if st.button("Back"):
-        st.session_state["active_tab"] = "Plan My Trip"
-        st.rerun()
-    st.markdown(
-        """
-        <style>
-            .block-container {
-                padding: 0rem;
-            }
-        </style>
-        """,
-        unsafe_allow_html=True
-    )
     
-    st.title("Your Custom Itinerary")
-    # Create two columns: left for itinerary, right for map
-    left_col, right_col = st.columns([1, 1])  # 2:1 ratio
+def convert_markdown_to_html(text):
+    """
+    Convert markdown-style text (e.g., **bold**, ### header) to HTML-like formatting
+    """
+    # Convert **bold** to <b>bold</b>
+    text = re.sub(r'\*\*(.*?)\*\*', r'<b>\1</b>', text)
     
+    # Convert ### to <h3> header
+    text = re.sub(r'###(.*?)\n', r'<h3>\1</h3>\n', text)
+    
+    # Convert ## to <h2> header
+    text = re.sub(r'##(.*?)\n', r'<h2>\1</h2>\n', text)
+    
+    # Convert # to <h1> header
+    text = re.sub(r'#(.*?)\n', r'<h1>\1</h1>\n', text)
+    
+    return text
 
-    def convert_markdown_to_html(text):
-        """
-        Convert markdown-style text (e.g., **bold**, ### header) to HTML-like formatting
-        """
-        # Convert **bold** to <b>bold</b>
-        text = re.sub(r'\*\*(.*?)\*\*', r'<b>\1</b>', text)
-        
-        # Convert ### to <h3> header
-        text = re.sub(r'###(.*?)\n', r'<h3>\1</h3>\n', text)
-        
-        # Convert ## to <h2> header
-        text = re.sub(r'##(.*?)\n', r'<h2>\1</h2>\n', text)
-        
-        # Convert # to <h1> header
-        text = re.sub(r'#(.*?)\n', r'<h1>\1</h1>\n', text)
-        
-        return text
-
-    def generate_pdf(itinerary_content):
+def generate_pdf(itinerary_content):
         buffer = BytesIO()
         # Set up the PDF document
         doc = SimpleDocTemplate(buffer, pagesize=letter)
@@ -88,16 +66,49 @@ def display_itinerary():
         buffer.seek(0)
         return buffer
 
+def display_itinerary():
+    # Remove padding and margins from the main container
+    # Add a back button
+
+    st.markdown(
+    """
+    <style>
+        .block-container {
+            padding-top: 1rem !important; /* Adjust the top padding */
+            padding-left: 6rem;
+            padding-right: 6rem;
+        }
+    </style>
+    """,
+    unsafe_allow_html=True
+    )
+
+    
+
+    # Create two columns: left for itinerary, right for map
+    left_col, right_col = st.columns([1, 1]) 
+ 
+    
+    st.markdown("<h2 style='text-align: center;'>Here's Your Personalised Itinerary</h2>", unsafe_allow_html=True)
+    
+    left_margin, left_col, right_col, right_margin = st.columns([0.2, 1.5, 1, 0.2])
+
     with left_col:
-        st.header("Itinerary Details")
+        st.subheader("Itinerary Details")
         itinerary_text = st.session_state.get("itinerary", "No itinerary available.")
         st.write(itinerary_text)
         formatted_itinerary = convert_markdown_to_html(itinerary_text)
         pdf = generate_pdf(formatted_itinerary)
-        st.download_button("Download Itinerary as PDF", data=pdf, file_name="itinerary.pdf", mime="application/pdf")
+        
+        st.write("")
+        st.download_button("Download Itinerary as PDF", data=pdf, file_name="itinerary.pdf", mime="application/pdf",type="primary")
+
+        if st.button("Back", type="primary"):
+            st.session_state["active_tab"] = "Plan My Trip"
+            st.rerun()
 
     with right_col:
-        st.header("Map of Your Destination")
+        st.subheader("Map of Your Destination")
         destination = st.session_state.get("destination", "Unknown")
         coordinates = get_coordinates(destination)
         if coordinates:
@@ -110,6 +121,6 @@ def display_itinerary():
                 tooltip=destination
             ).add_to(m)
             # Render the map with full width and increased height
-            st_folium(m, width=None, height=600)
+            st_folium(m, width=None, height=400)
         else:
             st.write("Could not find coordinates for the destination.")
