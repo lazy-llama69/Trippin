@@ -1,4 +1,6 @@
 import streamlit as st
+from openai import OpenAI
+client = OpenAI(api_key="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")
 
 def plan_my_trip():
     st.markdown("<h2 style='text-align: center;'>Tell us your travel preferences</h2>", unsafe_allow_html=True)
@@ -10,31 +12,31 @@ def plan_my_trip():
     with form:
         # Destination input
         st.markdown("### What is your destination of choice?")
-        destination = st.text_input("What is your destination of choice?", placeholder="Enter your destination", label_visibility="collapsed")
+        destination = st.text_input("What is your destination of choice?", placeholder="Enter your destination", label_visibility="collapsed", key="destination_input")
 
         st.markdown("---")  # Horizontal separator
 
         # Travel date input
         st.markdown("### When are you planning to travel?")
-        travel_date = st.date_input("When are you planning to travel?", format="YYYY-MM-DD", label_visibility="collapsed")
+        travel_date = st.date_input("When are you planning to travel?", format="YYYY-MM-DD", label_visibility="collapsed", key="travel_date_input")
 
         st.markdown("---")  # Horizontal separator
 
         # Number of travel days
         st.markdown("### How many days are you planning to travel?")
-        num_days = st.number_input("How many days are you planning to travel?", min_value=1, max_value=60, value=7, label_visibility="collapsed")
+        num_days = st.number_input("How many days are you planning to travel?", min_value=1, max_value=60, value=7, label_visibility="collapsed", key="num_days_input")
 
         st.markdown("---")  # Horizontal separator
 
         # Budget selection
         st.markdown("### What is Your Budget?")
-        budget = st.radio("What is Your Budget?", ["Low (0 - 1000 USD)", "Medium (1000 - 2500 USD)", "High (2500+ USD)"], horizontal=True, label_visibility="collapsed")
+        budget = st.radio("What is Your Budget?", ["Low (0 - 1000 USD)", "Medium (1000 - 2500 USD)", "High (2500+ USD)"], horizontal=True, label_visibility="collapsed", key="budget_input")
 
         st.markdown("---")  # Horizontal separator
 
         # Travel companions selection
         st.markdown("### Who do you plan on traveling with on your next adventure?")
-        companions = st.multiselect("Who do you plan on traveling with on your next adventure?", ["👤 Solo", "👫 Couple", "👨‍👩‍👧 Family", "👬 Friends"], label_visibility="collapsed")
+        companions = st.multiselect("Who do you plan on traveling with on your next adventure?", ["👤 Solo", "👫 Couple", "👨‍👩‍👧 Family", "👬 Friends"], label_visibility="collapsed", key="companions_input")
 
         st.markdown("---")  # Horizontal separator
 
@@ -46,14 +48,14 @@ def plan_my_trip():
                 "Beaches", "City Sightseeing", "Outdoor Adventures", "Festivals/Events",
                 "Food Exploration", "Nightlife", "Shopping", "Spa Wellness"
             ],
-            label_visibility="collapsed"
+            label_visibility="collapsed", key="activities_input"
         )
 
         st.markdown("---")  # Horizontal separator
 
         # Dietary preferences
         st.markdown("### Would you like to have these options?")
-        dietary_options = st.multiselect(" Would you like to have these options?", ["Halal", "Vegetarian"],label_visibility="collapsed")
+        dietary_options = st.multiselect(" Would you like to have these options?", ["Halal", "Vegetarian"],label_visibility="collapsed", key="dietary_options_input")
 
         st.markdown("---")  # Horizontal separator
 
@@ -62,7 +64,7 @@ def plan_my_trip():
         additional_requirements = st.text_area(
             "Enter any specific locations, allergens, or preferences:",
             placeholder="E.g., I want to visit the Eiffel Tower, avoid peanuts, need wheelchair accessibility...",
-            label_visibility="collapsed"
+            label_visibility="collapsed", key="additional_requirements_input"
         )
 
         st.markdown("---")  # Horizontal separator
@@ -71,4 +73,28 @@ def plan_my_trip():
         submit = st.button("Submit", key="submit_preferences", help="Generate your custom itinerary")
 
         if submit:
-            st.success("Your preferences have been saved! We will generate your itinerary shortly.")
+            # Collect all inputs
+            user_preferences = {
+                "destination": destination,
+                "travel_date": travel_date.strftime("%Y-%m-%d"),
+                "num_days": num_days,
+                "budget": budget,
+                "companions": companions,
+                "activities": activities,
+                "dietary_options": dietary_options,
+                "additional_requirements": additional_requirements
+            }
+
+            # Call OpenAI API
+            response = client.chat.completions.create(
+                model="gpt-3.5-turbo",
+                messages=[
+                    {"role": "system", "content": "You are a helpful travel assistant."},
+                    {"role": "user", "content": f"Generate a custom travel itinerary based on the following preferences: {user_preferences}"}
+                ],
+                max_tokens=500
+            )
+
+            # Display the generated itinerary
+            st.markdown("### Your Custom Itinerary")
+            st.write(response.choices[0].message.content)
