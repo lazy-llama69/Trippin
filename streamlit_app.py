@@ -114,7 +114,8 @@ if st.session_state["active_tab"] == "Home":
 
     with col2:  # Center column
         if st.button("Get started—it's free", key="get_started"):
-            switch_tab("Plan My Trip")  # Redirect to "Plan My Trip" tab
+            switch_tab("Plan My Trip")  
+
 
 elif st.session_state["active_tab"] == "Plan My Trip":
     plan_my_trip()
