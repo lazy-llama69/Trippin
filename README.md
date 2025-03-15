@@ -1,4 +1,3 @@
-# 💬 Chatbot template
 <p align="center">
 	<h2 align="center">Trippin</h2>
 	<h4 align="center"> AI Travel Planner Web App
@@ -9,30 +8,30 @@ This web app offers a simple way to create and enhance personalized travel itine
 ---
 
 ## Functionalities
-1. Personalized Itinerary Creation: 
+**1. Personalized Itinerary Creation:**
    Users can input their travel preferences, including destination, budget, activities, and duration, to automatically generate a customized itinerary tailored to their needs. 
-2. Interactive Chatbot: 
+**2. Interactive Chatbot:**
    A chatbot is available to assist users with real-time travel-related queries. It can offer activity suggestions, provide itinerary adjustments, and answer questions, creating a more interactive and responsive travel planning experience.
-3. Activity & Destination Suggestions: 
+**3. Activity & Destination Suggestions:**
    Recommendations for local attractions, unique experiences, and hidden gems are provided to help travelers discover places and activities that match their interests.
-4. Download and Export Itinerary: 
+**4. Download and Export Itinerary:**
    The finalized itinerary can be downloaded as a PDF or viewed on the web, allowing for offline viewing and sharing. 
-5. Currency Conversions: 
+**5. Currency Conversions:**
    Users can convert currency based on their travel destination, providing real-time exchange rate information. 
-6. Itinerary Enhancement: 
+**6. Itinerary Enhancement:**
    Users can paste an existing itinerary into the platform, which will be refined and enhanced with additional suggestions, adjustments, and recommendations to improve the overall travel experience.
-7. Tourist Recommendations & Travel Places: 
+**7. Tourist Recommendations & Travel Places:**
    Detailed recommendations for popular tourist spots, cultural landmarks, and off-the-beaten-path locations are offered. 
-8. Travel FAQs: 
+**8. Travel FAQs:**
    A comprehensive FAQ section is available to address common travel-related questions, offering useful advice and tips to help users plan their trip more effectively.
-9. Random Generation of Itinerary: 
+**9. Random Generation of Itinerary:**
    For users who need inspiration or are undecided on their next destination, a randomly generated itinerary is available. 
-10. Map Locations to Shop Destination: 
+**10. Map Locations to Shop Destination:**
    The platform provides a map of the selected destination to ensure that users can easily navigate their destination and discover places of interest in close proximity.
 <br>
 
 
-## Instructions to run
+## Instructions to run locally
 * Install all pre-requisites 
 ```bash
 $ pip install -r requirements.txt
@@ -42,6 +41,11 @@ $ pip install -r requirements.txt
 ```bash
 $ streamlit run streamlit_app.py
 ```
+
+
+## Try it out on our hosted website
+https://trippin.streamlit.app
+
 
 ## Contributors
 
@@ -57,7 +61,7 @@ Chang Yi Qian
 
 </p>
 <p align="center">
-<a href = "https://github.com/yiqianeee"><img src = "http://www.iconninja.com/files/241/825/211/round-collaboration-social-github-code-circle-network-icon.svg" width="36" height = "36"/></a>
+<a href = "https://github.com/yiqianee"><img src = "http://www.iconninja.com/files/241/825/211/round-collaboration-social-github-code-circle-network-icon.svg" width="36" height = "36"/></a>
 <a href = "https://www.linkedin.com/in/yi-qian-chang-048420228/">
 <img src = "http://www.iconninja.com/files/863/607/751/network-linkedin-social-connection-circular-circle-media-icon.svg" width="36" height="36"/>
 </a>
@@ -116,21 +120,14 @@ John Elisa
 
 This project utilizes several third-party APIs to provide enhanced functionality and improve the user experience. The following APIs are acknowledged for their valuable contributions:
 
-1. Gemini API: The Gemini API is used for powering the chatbot functionality and enhancing the PDF itinerary feature. It enables interactive conversations with users, answering travel-related queries and providing real-time assistance. The Gemini API also helps enhance the personalized travel itineraries by refining and formatting them into professional PDF documents. Gemini API Documentation
-2. Exchange Rate API: The Exchange Rate API is used for real-time currency conversions, enabling users to easily manage and convert currencies based on live market data. Exchange Rate API Documentation
-3. OpenAI API: OpenAI's GPT-3 model is used to customize and generate personalized travel itineraries based on user preferences. It processes the user inputs to create detailed, dynamic, and customized itineraries, ensuring a tailored travel experience. OpenAI API Documentation
+**1. Gemini API** : The Gemini API is used for powering the chatbot functionality and enhancing the PDF itinerary feature. It enables interactive conversations with users, answering travel-related queries and providing real-time assistance. The Gemini API also helps enhance the personalized travel itineraries by refining and formatting them into professional PDF documents. Gemini API Documentation
+**2. Exchange Rate API**: The Exchange Rate API is used for real-time currency conversions, enabling users to easily manage and convert currencies based on live market data. Exchange Rate API Documentation
+**3. OpenAI API**: OpenAI's GPT-3 model is used to customize and generate personalized travel itineraries based on user preferences. It processes the user inputs to create detailed, dynamic, and customized itineraries, ensuring a tailored travel experience. OpenAI API Documentation
 
 
 ## Important Note
 
-**Please be aware** that this project contains sensitive API keys for the following services:
-
-- **Gemini API**: Used for generating meal titles and instructions.
-
-
-These keys are integral to the functioning of the application. **However, they should not be used for any purposes outside of this project.** Unauthorized use or abuse of these keys could lead to security risks, financial costs, or the disabling of the API access.
-
-If you fork or clone this repository, **please ensure to replace the API keys with your own,** or remove them entirely if not needed. 
+If you fork or clone this repository, **please ensure to replace the API keys with your own,**. 
 
 **Responsible usage of these resources is highly encouraged.**
 
@@ -139,7 +136,7 @@ If you fork or clone this repository, **please ensure to replace the API keys wi
 [![License](http://img.shields.io/:license-mit-blue.svg?style=flat-square)](http://badges.mit-license.org)
 
 <p align="center">
-	Hope you love your app! SLAY</a>
+	Hope you love our app! SLAY~ </a>
 </p>
 
 
