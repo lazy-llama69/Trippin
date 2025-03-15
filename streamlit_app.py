@@ -133,6 +133,11 @@ elif st.session_state["active_tab"] == "Chat":
     st.write("Ask travel-related questions and get instant recommendations.")
     generate_chat_response()
 
+# streamlit_app.py (excerpt)
+elif st.session_state["active_tab"] == "Itinerary":
+    from itinerary import display_itinerary  # Import the function
+    display_itinerary()  # Call it to render the layout
+
 elif st.session_state["active_tab"] == "Convert":
     get_conversion()
 
