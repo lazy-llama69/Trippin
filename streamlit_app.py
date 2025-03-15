@@ -6,6 +6,8 @@ from chatbot import generate_chat_response
 from planmytrip import plan_my_trip
 from conversion import get_conversion
 from glowup import glowing
+from planmytrip import generate_itinerary
+
 
 # Load environment variables from .env file
 load_dotenv()
@@ -42,19 +44,6 @@ st.markdown(
 st.markdown(
     """
     <style>
-        /* Styling for the Trippin button text */
-        # div[data-testid="stButton"] > button {
-        #     font-size: 24px !important;  /* Larger font */
-        #     font-weight: bold !important;
-        #     color: #FF7F9F !important;  /* Pink text */
-        #     background: none !important;
-        #     border: none !important;
-        #     cursor: pointer;
-        # }
-
-        # div[data-testid="stButton"] > button:hover {
-        #     text-decoration: underline;
-        # }
 
         button[kind="primary"] {
             background-color: #FF7F9F;
@@ -85,18 +74,17 @@ st.markdown(
 
 # Navigation Bar (properly aligned to the right)
 st.markdown('<div class="nav-container">', unsafe_allow_html=True)
-col1, col2, col3, col4, col5, col6= st.columns([8, 1, 1.4, 1.9, 1.5, 1])  # Push buttons to the right
+col1, col2, col3, col4, col5, col6= st.columns([6,1,1.3,1.7,1,1])  # Push buttons to the right
 
 st.markdown(
     """
-    <style>
-        /* Hide the enlarge icon beside images */
-        .css-1lcbm11 {
-            display: none !important;
-        }
-    </style>
-    """,
-    unsafe_allow_html=True
+<style>
+button[title="View fullscreen"] {
+    display: none;
+}
+</style>
+""",
+    unsafe_allow_html=True,
 )
 with col1:
     st.image("assets/trippin_logo.png", width=220)
@@ -137,9 +125,27 @@ if st.session_state["active_tab"] == "Home":
         if st.button("Get started Now", key="get_started", type="primary"):
             switch_tab("Plan My Trip")  # Redirect to "Plan My Trip" tab
 
+
+        user_preferences = {
+                "destination": "random location",
+                "travel_date": "none",
+                "num_days": "reasonable number of days",
+                "budget": "reasonable budget",
+                "companions": "either solo, family, friends or couple",
+                "activities": "any activities",
+                "dietary_options": "none",
+                "additional_requirements": "none"
+        }
+
+        if st.button("Inspire me where to go"):
+            st.session_state["destination"] = "random location"
+            st.session_state["itinerary"] = generate_itinerary(user_preferences)
+            st.session_state["active_tab"] = "Itinerary"
+            st.rerun()
+
     st.write("")
     st.write("")
-    st.markdown("<h2 style='text-align: center;'>🌟 Tourist Recommendations 🌟</h2>", unsafe_allow_html=True)
+    st.subheader("🌟 Tourist Recommendations")
 
     trip_col1, trip_col2, trip_col3 = st.columns(3)
 
@@ -295,8 +301,8 @@ if st.session_state["active_tab"] == "Home":
 
         st.markdown("Safe travels! 🌍✨")
         st.markdown("<hr>", unsafe_allow_html=True)  # Add a separator
-
-    st.markdown("<h2 style='text-align: center;'>💡 Travel FAQs 💡</h2>", unsafe_allow_html=True)
+        
+    st.subheader("💡 Travel FAQs ")
 
     st.write("Find answers to common travel questions below! Click on any category to expand.")
 
