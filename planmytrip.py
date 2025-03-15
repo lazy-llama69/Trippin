@@ -1,5 +1,13 @@
 import streamlit as st
 import openai
+from dotenv import load_dotenv
+import os
+
+# Load environment variables from .env file
+load_dotenv()
+
+# Set your OpenAI API key
+openai.api_key = os.getenv("OPENAI_API_KEY")
 
 def plan_my_trip():
     st.markdown("<h2 style='text-align: center;'>Tell us your travel preferences</h2>", unsafe_allow_html=True)
@@ -85,7 +93,7 @@ def plan_my_trip():
             }
 
             # Call OpenAI API
-            response = openai.ChatCompletion.create(
+            response = openai.chat.completions.create(
                 model="gpt-3.5-turbo",
                 messages=[
                     {"role": "system", "content": "You are a helpful travel assistant."},
