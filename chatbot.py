@@ -6,9 +6,9 @@ import os
 # Load environment variables from .env file
 load_dotenv()
 # Configure Gemini API key from environment variable
-api_key = os.getenv("GEMINI_API_KEY")
-genai.configure(api_key=api_key)
-model = genai.GenerativeModel('gemini-1.5-flash')
+# api_key = os.getenv("GEMINI_API_KEY")
+# genai.configure(api_key=api_key)
+# model = genai.GenerativeModel('gemini-1.5-flash')
 
 def generate_chat_response():
 
