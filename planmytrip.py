@@ -36,7 +36,7 @@ def plan_my_trip():
         st.markdown("---")
         travel_date = st.date_input("When are you planning to travel?", format="YYYY-MM-DD", key="travel_date_input")
         st.markdown("---")
-        num_days = st.number_input("How many days are you planning to travel?", min_value=1, max_value=60, value=7, key="num_days_input")
+        num_days = st.number_input("How many days are you planning to travel?", min_value=1, max_value=60, value=5, key="num_days_input")
         st.markdown("---")
         budget = st.radio("What is Your Budget?", ["Low (0 - 1000 USD)", "Medium (1000 - 2500 USD)", "High (2500+ USD)"], horizontal=True, key="budget_input")
         st.markdown("---")
@@ -83,10 +83,10 @@ def plan_my_trip():
                         Dietary Options: {', '.join(user_preferences['dietary_options'])}
                         Additional Requirements: {user_preferences['additional_requirements']}
                         
-                        Please follow the format below:
+                        Please strictly follow the instructions below:
                         
                         1. **Travel Name**: Generate a catchy, funny, and engaging name for the trip, like "Journey to {destination}, make it ".
-                        2. For each day of the itinerary, use **headers** with the day number and a short description.
+                        2. For each day of the itinerary, use headers with the day number and a short description.
                         3. For each day's activities, DO NOT use **bullet points**.
                         4. Make **important keywords bold**: 
                             - **Restaurants**, e.g., **The Eiffel Tower Restaurant**
@@ -102,9 +102,8 @@ def plan_my_trip():
                         12. If additional requirements is empty, keep additonal requirements none, do not generate a prompt for additional requirements
                         13. Have a total time next to each of the short description for each day
                         14. Try to make it a full day experience from 8:00 till 22:00 unless stated otherwise in additional requirements
-                        15. Use this | symbol to separate the time and the activity for each day
+                        15. Use this | symbol to separate the time and the activity for each day and then remember to line break after each activity
                         16. After the final day in the itinerary, include additional suggestions that would be useful and beneficial for the tourist during the trip regarding (public transport, culture rules, etc.)
-                        17. Ensure that each activity is in a newline 
 
                         Example Format:
                         
@@ -112,24 +111,24 @@ def plan_my_trip():
                         
                         'preferences'
 
-                        #Day 1: Arrival in Paris 
-                        10:00-11:00 | Visit the **Eiffel Tower** 
-                        11:00-11:30 | Enjoy a meal at **Le Cinq** (Michelin Star restaurant) 
-                        11:30-12:00 | Relax at **Tuileries Gardens** 
+                        #Day 1: Arrival in Paris \n
+                        10:00-11:00 | Visit the **Eiffel Tower** \n
+                        11:00-11:30 | Enjoy a meal at **Le Cinq** (Michelin Star restaurant) \n
+                        11:30-12:00 | Relax at **Tuileries Gardens** \n
                         
                         
-                        #Day 2: Exploring Marrakech 
-                        10:00-12:00 | Visit the iconic **Jardin Majorelle** 
-                        12:00-13:30 | Discover the historic **Bahia Palace** 
-                        13:30-15:30 | Explore the bustling **Jemaa el-Fnaa** square 
-                        15:30-16:30 | Try tasty street food at Food Stalls in **Jemaa el-Fnaa** 
+                        #Day 2: Exploring Marrakech \n
+                        10:00-12:00 | Visit the iconic **Jardin Majorelle** \n
+                        12:00-13:30 | Discover the historic **Bahia Palace** \n
+                        13:30-15:30 | Explore the bustling **Jemaa el-Fnaa** square \n
+                        15:30-16:30 | Try tasty street food at Food Stalls in **Jemaa el-Fnaa** \n
                         
                         #Additional Suggestions:
                         bullet point: Buy Myki card for the Australian public transport
                         bullet point: Take off your shoes when entering people's homes. 
                     """},
                 ],
-                max_tokens=2000
+                max_tokens=2500
             )
 
 
