@@ -41,64 +41,42 @@ st.markdown(
 st.markdown(
     """
     <style>
-        /* Align navigation buttons to the right */
-        .nav-container {
-            display: flex;
-            justify-content: flex-end;
-            align-items: ;
-            padding: 10px 40px;
-            gap: 25px;
-        }
-
-        /* Navigation button styling */
-        .stButton > button {
-            background: none;
-            border: none;
-            color: black;
-            font-size: 18px;
-            cursor: pointer;
-            font-weight: bold;
-        }
-
-        /* Hover effect for navigation buttons */
-        .stButton > button:hover {
-            text-decoration: underline;
-        }
-
-        /* Style for the 'Get Started' button */
-        .get-started-container {
-            display: flex;
-            justify-content: center;
-            margin-top: 50px;
-        }
-        .get-started {
-            background-color: #FF7F9F;
-            color: white;
-            font-size: 18px;
-            font-weight: bold;
-            padding: 12px 24px;
-            border: 2px solid #ff5c8a;
-            border-radius: 8px;
-            cursor: pointer;    
-            text-align: center;
-        }
-        .get-started-button:hover {
-            background-color: #ff5c8a;
-            border-color: #ff3d6e;
-        }
-
         /* Styling for the Trippin button text */
-        div[data-testid="stButton"] > button {
-            font-size: 24px !important;  /* Larger font */
-            font-weight: bold !important;
-            color: #FF7F9F !important;  /* Pink text */
-            background: none !important;
-            border: none !important;
+        # div[data-testid="stButton"] > button {
+        #     font-size: 24px !important;  /* Larger font */
+        #     font-weight: bold !important;
+        #     color: #FF7F9F !important;  /* Pink text */
+        #     background: none !important;
+        #     border: none !important;
+        #     cursor: pointer;
+        # }
+
+        # div[data-testid="stButton"] > button:hover {
+        #     text-decoration: underline;
+        # }
+
+        button[kind="primary"] {
+            background-color: #FF7F9F;
+            border: none;
+        }
+
+        button[kind="primary"]:hover {
+            background-color: #ff5c8a;  
+            cursor: pointer;  
+        }
+
+        button[kind="secondary"] {
+            background-color: none;
+            border: none;
+            color: #FF7F9F
+        }
+
+        button[kind="secondary"]:hover {
+            color: white;  
+            background-color: #FF7F9F;  
             cursor: pointer;
         }
-        div[data-testid="stButton"] > button:hover {
-            text-decoration: underline;
-        }
+
     </style>
     """,
     unsafe_allow_html=True
@@ -111,7 +89,7 @@ col1, col2, col3, col4, col5 = st.columns([7, 1, 1.5, 1.8, 1.5])  # Push buttons
 with col1:
     st.image("assets/trippin_logo.png", width=220)
 with col2:
-    if st.button("Home", key="home_tab"):
+    if st.button("Home", key="home_tab",type="secondary"):
         switch_tab("Home")
 with col3:
     if st.button("Plan My Trip", key="trip_tab"):
@@ -140,7 +118,7 @@ if st.session_state["active_tab"] == "Home":
     col1, col2, col3 = st.columns([5, 2, 5])
 
     with col2:  # Center column
-        if st.button("Get started—it's free", key="get_started"):
+        if st.button("Get started Now", key="get_started", type="primary"):
             switch_tab("Plan My Trip")  # Redirect to "Plan My Trip" tab
 
     st.markdown("<h2 style='text-align: center;'>🌟 Tourist Recommendations 🌟</h2>", unsafe_allow_html=True)
@@ -155,7 +133,7 @@ if st.session_state["active_tab"] == "Home":
         st.image("assets/bali.jpg", use_column_width=True)
         st.markdown("### Bali, Indonesia")
         st.write("Experience breathtaking beaches, lush jungles, and vibrant culture.")
-        if st.button("View", key="bali"):
+        if st.button("View", key="bali", type="primary"):
             st.session_state.selected_trip = "Bali"
 
     # Recommended Trip 2
@@ -163,7 +141,7 @@ if st.session_state["active_tab"] == "Home":
         st.image("assets/paris.webp", use_column_width=True)
         st.markdown("### Paris, France")
         st.write("Visit the City of Love and explore its iconic landmarks and cafes.")
-        if st.button("View", key="paris"):
+        if st.button("View", key="paris",type="primary"):
             st.session_state.selected_trip = "Paris"
 
     # Recommended Trip 3
@@ -171,7 +149,7 @@ if st.session_state["active_tab"] == "Home":
         st.image("assets/tokyo.webp", use_column_width=True)
         st.markdown("### Tokyo, Japan")
         st.write("Discover a mix of futuristic cityscapes and traditional temples.")
-        if st.button("View", key="tokyo"):
+        if st.button("View", key="tokyo", type="primary"):
             st.session_state.selected_trip = "Tokyo"
 
     st.markdown("<hr>", unsafe_allow_html=True)  # Add a separator
