@@ -1,6 +1,6 @@
 import streamlit as st
 from openai import OpenAI
-client = OpenAI(api_key="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")
+client = OpenAI(api_key="")
 
 def plan_my_trip():
     st.markdown("<h2 style='text-align: center;'>Tell us your travel preferences</h2>", unsafe_allow_html=True)
