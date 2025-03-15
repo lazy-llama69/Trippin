@@ -4,7 +4,6 @@ from chatbot import generate_chat_response
 from planmytrip import plan_my_trip
 
 # Set your OpenAI API key
-openai.api_key = "your_actual_openai_api_key"  # Replace with your actual OpenAI API key
 
 # Set page configuration
 st.set_page_config(page_title="Trippin", layout="wide")
