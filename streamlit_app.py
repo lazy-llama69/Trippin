@@ -1,8 +1,16 @@
 import streamlit as st
-
+import openai
+from dotenv import load_dotenv
+import os
 from chatbot import generate_chat_response  
 from planmytrip import plan_my_trip
 from conversion import get_conversion
+
+# Load environment variables from .env file
+load_dotenv()
+
+# Set your OpenAI API key
+openai.api_key = os.getenv("OPENAI_API_KEY")
 
 # Set page configuration
 st.set_page_config(page_title="Trippin", layout="wide")
@@ -111,26 +119,21 @@ if st.session_state["active_tab"] == "Home":
     unsafe_allow_html=True
 )
     
-    # # Properly styled "Get Started" button with border
-    # st.markdown('<div class="get-started-container">', unsafe_allow_html=True)
-    # if st.button("Get started—it's free", key="get_started"):
-    #     switch_tab("Plan My Trip")  # Redirect to "Plan My Trip" tab
-    # st.markdown('</div>', unsafe_allow_html=True)
-    # # Create three columns: left (empty), center (button), right (empty)
-
     col1, col2, col3 = st.columns([5, 2, 5])
 
     with col2:  # Center column
         if st.button("Get started—it's free", key="get_started"):
-            switch_tab("Plan My Trip")  
-
+            switch_tab("Plan My Trip")  # Redirect to "Plan My Trip" tab
 
 elif st.session_state["active_tab"] == "Plan My Trip":
     plan_my_trip()
 
 elif st.session_state["active_tab"] == "Chat":
+    st.header("Chat with AI")
+    st.write("Ask travel-related questions and get instant recommendations.")
     generate_chat_response()
 
 elif st.session_state["active_tab"] == "Convert":
     get_conversion()
+
 
