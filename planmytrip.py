@@ -94,7 +94,7 @@ def plan_my_trip():
             }
 
             # Call OpenAI API
-            response = openai.ChatCompletion.create(
+            response = openai.chat.completions.create(
                 model="gpt-3.5-turbo",
                 messages=[
                     {"role": "system", "content": "You are a helpful travel assistant."},
@@ -104,7 +104,7 @@ def plan_my_trip():
             )
 
             # Extract places from the response
-            itinerary = response.choices[0].message["content"]
+            itinerary = response.choices[0].message.content
             places = extract_places(itinerary)
 
             # Get price estimations for each place
