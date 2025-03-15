@@ -1,3 +1,5 @@
 streamlit
-openai
-langflow
+google-generativeai
+python-dotenv
+requests
+

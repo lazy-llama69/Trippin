@@ -1,28 +1,136 @@
 import streamlit as st
-import google.generativeai as genai
-genai.configure(api_key="AIzaSyAHBdAQOzjZiAXUkWD-TjzymkwDd7kxB5g")
-model = genai.GenerativeModel('gemini-1.5-flash')
-# Show title and description.
-st.title("💬 Chatbot")
-st.write(
-    "This is a simple chatbot that uses OpenAI's GPT-3.5 model to generate responses. "
-    "To use this app, you need to provide an OpenAI API key, which you can get [here](https://platform.openai.com/account/api-keys). "
-    "You can also learn how to build this app step by step by [following our tutorial](https://docs.streamlit.io/develop/tutorials/llms/build-conversational-apps)."
+
+from chatbot import generate_chat_response  
+from planmytrip import plan_my_trip
+from conversion import get_conversion
+
+# Set page configuration
+st.set_page_config(page_title="Trippin", layout="wide")
+
+# Initialize session state for active tab
+if "active_tab" not in st.session_state:
+    st.session_state["active_tab"] = "Home"  # Default tab
+
+# Function to switch tabs
+def switch_tab(tab_name):
+    st.session_state["active_tab"] = tab_name
+    st.rerun()  # Refresh UI to reflect change
+
+# Custom CSS for aligning navigation buttons to the right & styling the "Get Started" button
+st.markdown(
+    """
+    <style>
+        /* Align navigation buttons to the right */
+        .nav-container {
+            display: flex;
+            justify-content: flex-end;
+            align-items: ;
+            padding: 10px 40px;
+            gap: 25px;
+        }
+
+        /* Navigation button styling */
+        .stButton > button {
+            background: none;
+            border: none;
+            color: black;
+            font-size: 18px;
+            cursor: pointer;
+            font-weight: bold;
+        }
+
+        /* Hover effect for navigation buttons */
+        .stButton > button:hover {
+            text-decoration: underline;
+        }
+
+        /* Style for the 'Get Started' button */
+        .get-started-container {
+            display: flex;
+            justify-content: center;
+            margin-top: 50px;
+        }
+        .get-started {
+            background-color: #FF7F9F;
+            color: white;
+            font-size: 18px;
+            font-weight: bold;
+            padding: 12px 24px;
+            border: 2px solid #ff5c8a;
+            border-radius: 8px;
+            cursor: pointer;    
+            text-align: center;
+        }
+        .get-started-button:hover {
+            background-color: #ff5c8a;
+            border-color: #ff3d6e;
+        }
+
+        /* Styling for the Trippin button text */
+        div[data-testid="stButton"] > button {
+            font-size: 24px !important;  /* Larger font */
+            font-weight: bold !important;
+            color: #FF7F9F !important;  /* Pink text */
+            background: none !important;
+            border: none !important;
+            cursor: pointer;
+        }
+        div[data-testid="stButton"] > button:hover {
+            text-decoration: underline;
+        }
+    </style>
+    """,
+    unsafe_allow_html=True
 )
 
-# via `st.secrets`, see https://docs.streamlit.io/develop/concepts/connections/secrets-management
+# Navigation Bar (properly aligned to the right)
+st.markdown('<div class="nav-container">', unsafe_allow_html=True)
+col1, col2, col3, col4 = st.columns([8, 1, 1.5, 0.6])  # Push buttons to the right
 
-try:
-    # Generate food title
-    prompt = st.chat_input(f"Can you give me a funny joke")
-    response = model.generate_content(
-        prompt,
-        generation_config=genai.types.GenerationConfig(
-            temperature=1.5,
-        ),
-    )
-    filtered_text = ''.join([char for char in response.text if char.isalnum() or char.isspace()]) 
-    st.markdown(filtered_text)
-except Exception as e:
-    print(f"Attempt failed: {e}")
+with col1:
+    if st.button("Trippin", key="home_tab"):
+        switch_tab("Home")
+with col2:
+    if st.button("Plan My Trip", key="trip_tab"):
+        switch_tab("Plan My Trip")
+with col3:
+    if st.button("Currency Converter", key="convert_tab"):
+        switch_tab("Convert")
+with col4:
+    if st.button("Chat", key="chat_tab"):
+        switch_tab("Chat")
+st.markdown('</div>', unsafe_allow_html=True)
+
+# Render content based on the active tab
+if st.session_state["active_tab"] == "Home":
+    st.markdown(
+    """
+    <h1 style="text-align: center;">Craft Unforgettable Itineraries with AI Trip Planner</h1>
+    <p style="text-align: center; font-size:18px;">Your personal trip planner and travel curator, creating custom itineraries tailored to your interests and budget.</p>
+    """,
+    unsafe_allow_html=True
+)
+    
+    # # Properly styled "Get Started" button with border
+    # st.markdown('<div class="get-started-container">', unsafe_allow_html=True)
+    # if st.button("Get started—it's free", key="get_started"):
+    #     switch_tab("Plan My Trip")  # Redirect to "Plan My Trip" tab
+    # st.markdown('</div>', unsafe_allow_html=True)
+    # # Create three columns: left (empty), center (button), right (empty)
+
+    col1, col2, col3 = st.columns([5, 2, 5])
+
+    with col2:  # Center column
+        if st.button("Get started—it's free", key="get_started"):
+            switch_tab("Plan My Trip")  
+
+
+elif st.session_state["active_tab"] == "Plan My Trip":
+    plan_my_trip()
+
+elif st.session_state["active_tab"] == "Chat":
+    generate_chat_response()
+
+elif st.session_state["active_tab"] == "Convert":
+    get_conversion()
 
