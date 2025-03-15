@@ -113,19 +113,21 @@ if st.session_state["active_tab"] == "Home":
         Say Goodbye to Travel Hassles, Hello to <span style="color: #FF7F9F;">Trippin AI!</span>
     </h1>
     <p style="text-align: center; font-size:18px;">We create customized itineraries, provide currency conversion, and answer all your travel questions. Need help? Just ask our chatbot!</p>
+    <p style="text-align: center; font-size:18px;">Can't decide where to go? No worries, we've got you covered! Explore unlimited travel inspirations with personalized itineraries ready just for you!</p>
     """,
     unsafe_allow_html=True
 )
-    st.write("")
-
     
-    col1, col2, col3 = st.columns([5.2, 2, 5])
+    st.write("")
+    
+    col1, col2, col3, col4 = st.columns([5.2, 2, 5,2])
 
     with col2:  # Center column
-        if st.button("Get started Now", key="get_started", type="primary"):
-            switch_tab("Plan My Trip")  # Redirect to "Plan My Trip" tab
+        if st.button("Create An Itinerary", key="get_started", type="primary"):
+            switch_tab("Plan My Trip")  
 
-
+  
+    with col3:
         user_preferences = {
                 "destination": "random location",
                 "travel_date": "none",
@@ -136,12 +138,16 @@ if st.session_state["active_tab"] == "Home":
                 "dietary_options": "none",
                 "additional_requirements": "none"
         }
-
-        if st.button("Inspire me where to go"):
+        if st.button("Inspire me where to go",type="primary"):
             st.session_state["destination"] = "random location"
             st.session_state["itinerary"] = generate_itinerary(user_preferences)
             st.session_state["active_tab"] = "Itinerary"
             st.rerun()
+
+        
+         
+        
+
 
     st.write("")
     st.write("")
