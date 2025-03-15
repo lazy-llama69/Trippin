@@ -2,6 +2,7 @@ import streamlit as st
 import openai
 from dotenv import load_dotenv
 import os
+from google_places import get_price_estimations
 
 # Load environment variables from .env file
 load_dotenv()
@@ -93,7 +94,7 @@ def plan_my_trip():
             }
 
             # Call OpenAI API
-            response = openai.chat.completions.create(
+            response = openai.ChatCompletion.create(
                 model="gpt-3.5-turbo",
                 messages=[
                     {"role": "system", "content": "You are a helpful travel assistant."},
@@ -102,6 +103,20 @@ def plan_my_trip():
                 max_tokens=500
             )
 
-            # Display the generated itinerary
+            # Extract places from the response
+            itinerary = response.choices[0].message["content"]
+            places = extract_places(itinerary)
+
+            # Get price estimations for each place
+            price_estimations = get_price_estimations(places)
+
+            # Display the generated itinerary with price estimations
             st.markdown("### Your Custom Itinerary")
-            st.write(response.choices[0].message.content)
+            st.write(itinerary)
+            st.markdown("### Price Estimations")
+            st.write(price_estimations)
+
+def extract_places(itinerary):
+    # Implement a function to extract place names from the itinerary text
+    # This is a placeholder implementation and should be replaced with actual logic
+    return ["Eiffel Tower", "Louvre Museum", "Notre-Dame Cathedral"]
