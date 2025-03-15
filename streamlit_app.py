@@ -3,7 +3,11 @@ from openai import OpenAI
 
 # Set your OpenAI API key
 client = OpenAI(api_key="")
+from chatbot import generate_chat_response  
+from planmytrip import plan_my_trip
 
+# Set your OpenAI API key
+client = OpenAI(api_key="")
 # Set page configuration
 st.set_page_config(page_title="Trippin", layout="wide")
 
@@ -112,7 +116,7 @@ if st.session_state["active_tab"] == "Home":
 
     with col2:  # Center column
         if st.button("Get started—it's free", key="get_started"):
-            switch_tab("Plan My Trip")  # Redirect to "Plan My Trip" tab
+            switch_tab("Plan My Trip")  
 
 elif st.session_state["active_tab"] == "Plan My Trip":
     st.markdown("<h2 style='text-align: center;'>Tell us your travel preferences</h2>", unsafe_allow_html=True)
@@ -210,7 +214,9 @@ elif st.session_state["active_tab"] == "Plan My Trip":
             # Display the generated itinerary
             st.markdown("### Your Custom Itinerary")
             st.write(response.choices[0].message.content)
+    plan_my_trip()
 
 elif st.session_state["active_tab"] == "Chat":
     st.header("Chat with AI")
     st.write("Ask travel-related questions and get instant recommendations.")
+    generate_chat_response()
