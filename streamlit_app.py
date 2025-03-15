@@ -406,4 +406,6 @@ elif st.session_state["active_tab"] == "Convert":
     get_conversion()
 
 elif st.session_state["active_tab"] == "Glow Up":
+    st.title("Give your self-planned itinerary a glow-up")
+    st.write("Just paste your itinerary, and we'll help improve it for you.")
     glowing()
