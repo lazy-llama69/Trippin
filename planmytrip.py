@@ -54,6 +54,7 @@ def plan_my_trip():
         if submit:
             if not destination:
                 st.error("Please enter a destination before submitting.")
+                return
 
             else:
                 user_preferences = {

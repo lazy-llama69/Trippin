@@ -25,21 +25,21 @@ def generate_chat_response():
         # Display user message in chat message container
         with st.chat_message("user"):
             st.markdown(prompt)
-            with st.spinner("Thinking..."):
         # Generate assistant's response using Gemini
-                try:
-                    response = model.generate_content(
-                        prompt,
-                        generation_config=genai.types.GenerationConfig(
-                            temperature=1.5,  # You can adjust the temperature here
-                        ),
-                    )
-                    # Add assistant message to chat history
-                    st.session_state.messages.append({"role": "assistant", "content": response.text})
+        with st.spinner("Thinking..."):
+            try:
+                response = model.generate_content(
+                    prompt,
+                    generation_config=genai.types.GenerationConfig(
+                        temperature=1.5,  # You can adjust the temperature here
+                    ),
+                )
+                # Add assistant message to chat history
+                st.session_state.messages.append({"role": "assistant", "content": response.text})
 
-                    # Display assistant message in chat message container
-                    with st.chat_message("assistant"):
-                        st.markdown(response.text)
-                except Exception as e:
-                    # Handle any errors that may occur
-                    st.error(f"Error generating response: {e}")
+                # Display assistant message in chat message container
+                with st.chat_message("assistant"):
+                    st.markdown(response.text)
+            except Exception as e:
+                # Handle any errors that may occur
+                st.error(f"Error generating response: {e}")
