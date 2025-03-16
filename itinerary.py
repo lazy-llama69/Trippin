@@ -218,7 +218,6 @@ def display_itinerary():
             # with st.expander("Debug: Raw Addresses Data"):
             #   st.write(raw_addresses)
             # st.write(f'addresses{raw_addresses}')
-
             start = raw_addresses.find('[')
             end = raw_addresses.rfind(']') + 1
             json_str = raw_addresses[start:end] if start != -1 and end != -1 else "[]"
@@ -253,26 +252,24 @@ def display_itinerary():
                     display_custom_map(markers, GOOGLE_MAPS_API_KEY)
                     return
                 else:
-                    st.error(f"No markers")
+                    st.write("Sorry we could not place markers :(")
+                    destination = st.session_state.get("destination", "Tokyo")
+                    coords = get_coordinates(destination)
+                    if coords:
+                        st.write(f"Showing map centered on {destination}.")
+                        display_custom_map(
+                            places=[],
+                            api_key=GOOGLE_MAPS_API_KEY,
+                            center_lat=coords[0],
+                            center_lng=coords[1],
+                            zoom=12
+                        )
 
             except json.JSONDecodeError as e:
-                st.error(f"Failed to parse places JSON: {str(e)}")
                 addresses = []
             
-            destination = st.session_state.get("destination", "Tokyo")
-            coords = get_coordinates(destination)
-            if coords:
-                st.write(f"Showing map centered on {destination}.")
-                display_custom_map(
-                    places=[],
-                    api_key=GOOGLE_MAPS_API_KEY,
-                    center_lat=coords[0],
-                    center_lng=coords[1],
-                    zoom=12
-                )
-
         if not addresses:
-            st.write("No structured address data found.")
+            st.write("Sorry we could not extract structured address from itinerary :(")
             destination = st.session_state.get("destination", "Tokyo")
             coords = get_coordinates(destination)
             if coords:
