@@ -96,19 +96,13 @@ def display_itinerary():
         pdf = generate_pdf(formatted_itinerary)
         st.download_button("Download Itinerary as PDF", data=pdf, file_name="itinerary.pdf", mime="application/pdf")
         # Add the ratings section
-        st.markdown("### Ratings")
+        st.markdown("### Tourist Hotspots")
         map_locations = st.session_state.get("map_locations", {})
         for place, details in map_locations.items():
             if details:
                 st.write(f"**{place}**")
-                st.write(f"Types: {', '.join(details.get('types', [])) if details.get('types') else 'Not available'}")
-                st.write(f"Rating: {details.get('rating', 'Not available')}")
-                st.write(f"Price Level: {details.get('price_level', 'Not available')}")
-                st.write(f"Opening Hours: {details.get('opening_hours', 'Not available')}")
-                st.write(f"Website: {details.get('website', 'Not available')}")
-                st.write(f"Top Review: {details.get('top_review', 'Not available')}")
-                st.write("---")
-                st.write(f"**{place}**")
+                if details.get("photo_url") and details["photo_url"] != "Not available":
+                    st.image(details["photo_url"], caption=place)
                 st.write(f"Types: {', '.join(details.get('types', [])) if details.get('types') else 'Not available'}")
                 st.write(f"Rating: {details.get('rating', 'Not available')}")
                 st.write(f"Price Level: {details.get('price_level', 'Not available')}")
@@ -118,14 +112,6 @@ def display_itinerary():
                 st.write("---")
             else:
                 st.write(f"{place}: Rating - Not available, Price Level - Not available")
-
-        
-        st.write("")
-        st.download_button("Download Itinerary as PDF", data=pdf, file_name="itinerary.pdf", mime="application/pdf",type="primary")
-
-        if st.button("Back", type="primary"):
-            st.session_state["active_tab"] = "Plan My Trip"
-            st.rerun()
 
     with right_col:
         st.header("Map of Your Destination")

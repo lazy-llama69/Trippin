@@ -10,7 +10,7 @@ from streamlit_extras.switch_page_button import switch_page
 load_dotenv()
 
 # Set your OpenAI API key
-openai.api_key = os.getenv("OPENAI_API_KEY")
+openai.api_key = st.secrets["openai"]["api_key"]
 
 def plan_my_trip():
     st.markdown("<h2 style='text-align: center;'>Tell us your travel preferences</h2>", unsafe_allow_html=True)
@@ -70,14 +70,14 @@ def plan_my_trip():
             places_response = openai.chat.completions.create(
                 model="gpt-3.5-turbo",
                 messages=[
-                    {"role": "system", "content": "You are summariser."},
-                    {"role": "user", "content": f"List the first place mentioned in the following itinerary: {itinerary}. You only have to list the first place mentioned and say nothing else."}
+                    {"role": "system", "content": "You are very efficient location name picker."},
+                    {"role": "user", "content": f"Tell me the first tourist attraction that can be found on google maps mentioned in the following itinerary: {itinerary}. You can only list the name of the first place mentioned and say nothing else."}
                 ],
                 max_tokens=500
             )
 
             # Log the response for debugging
-            st.write("Places Response:", places_response)
+#             # st.write("Places Response:", places_response)
 
             # Extract the list of places
             places_list = re.split(r'[,\n;]+', places_response.choices[0].message.content)

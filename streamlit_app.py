@@ -10,7 +10,7 @@ from conversion import get_conversion
 load_dotenv()
 
 # Set your OpenAI API key
-openai.api_key = os.getenv("OPENAI_API_KEY")
+openai.api_key = st.secrets["openai"]["api_key"]
 
 # Set page configuration
 st.set_page_config(page_title="Trippin", layout="wide")
@@ -96,7 +96,7 @@ st.markdown('<div class="nav-container">', unsafe_allow_html=True)
 col1, col2, col3, col4, col5 = st.columns([7, 1, 1.5, 1.8, 1.5])  # Push buttons to the right
 
 with col1:
-    st.image("assets/logo.png", width=300)
+    st.image("assets/trippin_logo.png", width=300)
 with col2:
     if st.button("Home", key="home_tab"):
         switch_tab("Home")
