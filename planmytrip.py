@@ -64,10 +64,10 @@ def plan_my_trip():
             }
 
             #run processes
-            run_processes(user_preferences)
+            gen_and_ext(user_preferences)
 
 
-def run_processes(user_preferences):
+def gen_and_ext(user_preferences):
     # 1) Generate the itinerary (first GPT call)
     itinerary = generate_itinerary(user_preferences)
     st.session_state["itinerary"] = itinerary
