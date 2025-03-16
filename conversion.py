@@ -7,7 +7,7 @@ import os
 def get_conversion():
     # load_dotenv()
     # api_key = os.getenv("EXCHANGE_API_KEY")
-    api_key = st.secrets['EXCHANGE_API_KEY']
+    api_key = st.secrets['exchange']['api_key']
 
     st.markdown(
     """
@@ -52,17 +52,18 @@ def get_conversion():
             st.write("please try again")
 
 def get_exchange_rate(api_key, base_currency, target_currency):
-    url = f"https://v6.exchangerate-api.com/v6/{api_key}/latest/{base_currency}"
-    response = requests.get(url)
-    data = response.json()
-    
-    if response.status_code == 200 and data['result'] == 'success':
-        conversion_rate = data['conversion_rates'].get(target_currency)
-        if conversion_rate:
-            return conversion_rate
+    with st.spinner("Converting..."):
+        url = f"https://v6.exchangerate-api.com/v6/{api_key}/latest/{base_currency}"
+        response = requests.get(url)
+        data = response.json()
+        
+        if response.status_code == 200 and data['result'] == 'success':
+            conversion_rate = data['conversion_rates'].get(target_currency)
+            if conversion_rate:
+                return conversion_rate
+            else:
+                st.error(f"Could not find conversion rate for {target_currency}.")
         else:
-            st.error(f"Could not find conversion rate for {target_currency}.")
-    else:
-        st.error("Error fetching data from ExchangeRate-API.")
+            st.error("Error fetching data from ExchangeRate-API.")
 
-    return None
+        return None

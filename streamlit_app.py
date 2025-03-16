@@ -6,14 +6,14 @@ from chatbot import generate_chat_response
 from planmytrip import plan_my_trip
 from conversion import get_conversion
 from glowup import glowing
-from planmytrip import generate_itinerary
+from planmytrip import gen_and_ext
 
 
 # Load environment variables from .env file
 load_dotenv()
 
 # Set your OpenAI API key
-openai.api_key = os.getenv("OPENAI_API_KEY")
+openai.api_key = st.secrets["openai"]["api_key"]
 
 # Set page configuration
 st.set_page_config(page_title="Trippin", layout="wide")
@@ -112,24 +112,43 @@ if st.session_state["active_tab"] == "Home":
     <h1 style="text-align: center;">
         Say Goodbye to Travel Hassles, Hello to <span style="color: #FF7F9F;">Trippin AI!</span>
     </h1>
-    <p style="text-align: center; font-size:18px;">We create customized itineraries, provide currency conversion, and answer all your travel questions. Need help? Just ask our chatbot!</p>
+    """,
+    unsafe_allow_html=True
+    )
+    st.write("")
+    col1, col2, col3 = st.columns([1,9,3.4])
+    with col2:
+        st.markdown(
+    """
+    <p style="font-size:18px;">We create customized itineraries, provide currency conversion, and answer all your travel questions. Need help?</p>
+    """,
+    unsafe_allow_html=True
+    )
+
+    with col3:
+    
+        if st.button("Chat with our chatbot", type="secondary"):
+            switch_tab("Chat")
+
+    st.markdown(
+    """
     <p style="text-align: center; font-size:18px;">Can't decide where to go? No worries, we've got you covered! Explore unlimited travel inspirations with personalized itineraries ready just for you!</p>
     """,
     unsafe_allow_html=True
-)
-    
+    )
+
     st.write("")
     
-    col1, col2, col3, col4 = st.columns([5.2, 2, 5,2])
+    
+    col1, col2, col3, col4 = st.columns([2.5, 2, 2, 2])
 
     with col2:  # Center column
-        if st.button("Create An Itinerary", key="get_started", type="primary"):
+        if st.button("✍🏻 Create An Itinerary", key="get_started", type="primary"):
             switch_tab("Plan My Trip")  
-
   
     with col3:
         user_preferences = {
-                "destination": "random location",
+                "destination": "A random city or country that actually exists",
                 "travel_date": "none",
                 "num_days": "reasonable number of days",
                 "budget": "reasonable budget",
@@ -138,20 +157,14 @@ if st.session_state["active_tab"] == "Home":
                 "dietary_options": "none",
                 "additional_requirements": "none"
         }
-        if st.button("Inspire me where to go",type="primary"):
+        if st.button("💭 Inspire me where to go",type="primary"):
             st.session_state["destination"] = "random location"
-            st.session_state["itinerary"] = generate_itinerary(user_preferences)
-            st.session_state["active_tab"] = "Itinerary"
-            st.rerun()
+            gen_and_ext(user_preferences)
 
         
-         
-        
-
-
     st.write("")
     st.write("")
-    st.subheader("🌟 Tourist Recommendations")
+    st.subheader("Tourist Recommendations")
 
     trip_col1, trip_col2, trip_col3 = st.columns(3)
 
@@ -160,7 +173,7 @@ if st.session_state["active_tab"] == "Home":
 
     # Recommended Trip 1
     with trip_col1:
-        st.image("assets/bali.jpg", use_column_width=True)
+        st.image("assets/bali.jpg", use_container_width=True)
         st.markdown("### Bali, Indonesia")
         st.write("Experience breathtaking beaches, lush jungles, and vibrant culture.")
         if st.button("View", key="bali", type="primary"):
@@ -168,7 +181,7 @@ if st.session_state["active_tab"] == "Home":
 
     # Recommended Trip 2
     with trip_col2:
-        st.image("assets/paris.webp", use_column_width=True)
+        st.image("assets/paris.webp", use_container_width=True)
         st.markdown("### Paris, France")
         st.write("Visit the City of Love and explore its iconic landmarks and cafes.")
         if st.button("View", key="paris",type="primary"):
@@ -176,7 +189,7 @@ if st.session_state["active_tab"] == "Home":
 
     # Recommended Trip 3
     with trip_col3:
-        st.image("assets/tokyo.webp", use_column_width=True)
+        st.image("assets/tokyo.webp", use_container_width=True)
         st.markdown("### Tokyo, Japan")
         st.write("Discover a mix of futuristic cityscapes and traditional temples.")
         if st.button("View", key="tokyo", type="primary"):
@@ -308,7 +321,7 @@ if st.session_state["active_tab"] == "Home":
         st.markdown("Safe travels! 🌍✨")
         st.markdown("<hr>", unsafe_allow_html=True)  # Add a separator
         
-    st.subheader("💡 Travel FAQs ")
+    st.subheader("Travel FAQs ")
 
     st.write("Find answers to common travel questions below! Click on any category to expand.")
 
@@ -390,4 +403,6 @@ elif st.session_state["active_tab"] == "Convert":
     get_conversion()
 
 elif st.session_state["active_tab"] == "Glow Up":
+    st.title("Give your self-planned itinerary a glow-up")
+    st.write("Just paste your itinerary, and we'll help improve it for you.")
     glowing()
