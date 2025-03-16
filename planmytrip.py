@@ -51,37 +51,41 @@ def plan_my_trip():
         submit = st.button("Submit", key="submit_preferences", help="Generate your custom itinerary", type="primary")
 
         if submit:
-            user_preferences = {
-                "destination": destination,
-                "travel_date": travel_date.strftime("%Y-%m-%d"),
-                "num_days": num_days,
-                "budget": budget,
-                "companions": companions,
-                "activities": activities,
-                "dietary_options": dietary_options,
-                "additional_requirements": additional_requirements
-            }
+            if not destination:
+                st.error("Please enter a destination before submitting.")
 
-            # 1) Generate the itinerary (first GPT call)
-            itinerary = generate_itinerary(user_preferences)
-            st.session_state["itinerary"] = itinerary
+            else:
+                user_preferences = {
+                    "destination": destination,
+                    "travel_date": travel_date.strftime("%Y-%m-%d"),
+                    "num_days": num_days,
+                    "budget": budget,
+                    "companions": companions,
+                    "activities": activities,
+                    "dietary_options": dietary_options,
+                    "additional_requirements": additional_requirements
+                }
 
-            # 2) Extract places (second GPT call)
-            places_json = extract_places_gpt(itinerary)
+                # 1) Generate the itinerary (first GPT call)
+                itinerary = generate_itinerary(user_preferences)
+                st.session_state["itinerary"] = itinerary
 
-            # Basic validation before storing
-            if not places_json.strip().startswith('['):
-                st.error("Failed to extract valid places data")
-                places_json = "[]"  # Fallback empty array
+                # 2) Extract places (second GPT call)
+                places_json = extract_places_gpt(itinerary)
 
-            st.session_state["addresses_data"] = places_json
+                # Basic validation before storing
+                if not places_json.strip().startswith('['):
+                    st.error("Failed to extract valid places data")
+                    places_json = "[]"  # Fallback empty array
 
-            # 3) Extract location (regex-based function)
-            st.session_state["destination"] = extract_location(itinerary)
+                st.session_state["addresses_data"] = places_json
 
-            # 4) Switch to the itinerary tab and rerun
-            st.session_state["active_tab"] = "Itinerary"
-            st.rerun()
+                # 3) Extract location (regex-based function)
+                st.session_state["destination"] = extract_location(itinerary)
+
+                # 4) Switch to the itinerary tab and rerun
+                st.session_state["active_tab"] = "Itinerary"
+                st.rerun()
 
 def generate_itinerary(user_preferences):
     with st.spinner("Generating your personalized itinerary..."):
