@@ -6,7 +6,7 @@ from chatbot import generate_chat_response
 from planmytrip import plan_my_trip
 from conversion import get_conversion
 from glowup import glowing
-from planmytrip import generate_itinerary
+from planmytrip import run_processes
 
 
 # Load environment variables from .env file
@@ -148,7 +148,7 @@ if st.session_state["active_tab"] == "Home":
   
     with col3:
         user_preferences = {
-                "destination": "A random city",
+                "destination": "A random city or country that actually exists",
                 "travel_date": "none",
                 "num_days": "reasonable number of days",
                 "budget": "reasonable budget",
@@ -159,9 +159,7 @@ if st.session_state["active_tab"] == "Home":
         }
         if st.button("💭 Inspire me where to go",type="primary"):
             st.session_state["destination"] = "random location"
-            st.session_state["itinerary"] = generate_itinerary(user_preferences)
-            st.session_state["active_tab"] = "Itinerary"
-            st.rerun()
+            run_processes(user_preferences)
 
         
     st.write("")
