@@ -3,11 +3,8 @@ import google.generativeai as genai
 from dotenv import load_dotenv
 import os
 
-# Load environment variables from .env file
-load_dotenv()
 # Configure Gemini API key from environment variable
-api_key = os.getenv("GEMINI_API_KEY")
-genai.configure(api_key=api_key)
+genai.configure(api_key=st.secrets["gemini"]["api_key"])
 model = genai.GenerativeModel('gemini-1.5-flash')
 
 def generate_chat_response():
@@ -28,21 +25,21 @@ def generate_chat_response():
         # Display user message in chat message container
         with st.chat_message("user"):
             st.markdown(prompt)
-
+            with st.spinner("Thinking..."):
         # Generate assistant's response using Gemini
-        try:
-            response = model.generate_content(
-                prompt,
-                generation_config=genai.types.GenerationConfig(
-                    temperature=1.5,  # You can adjust the temperature here
-                ),
-            )
-            # Add assistant message to chat history
-            st.session_state.messages.append({"role": "assistant", "content": response.text})
+                try:
+                    response = model.generate_content(
+                        prompt,
+                        generation_config=genai.types.GenerationConfig(
+                            temperature=1.5,  # You can adjust the temperature here
+                        ),
+                    )
+                    # Add assistant message to chat history
+                    st.session_state.messages.append({"role": "assistant", "content": response.text})
 
-            # Display assistant message in chat message container
-            with st.chat_message("assistant"):
-                st.markdown(response.text)
-        except Exception as e:
-            # Handle any errors that may occur
-            st.error(f"Error generating response: {e}")
+                    # Display assistant message in chat message container
+                    with st.chat_message("assistant"):
+                        st.markdown(response.text)
+                except Exception as e:
+                    # Handle any errors that may occur
+                    st.error(f"Error generating response: {e}")

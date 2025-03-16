@@ -5,6 +5,8 @@ import os
 from chatbot import generate_chat_response  
 from planmytrip import plan_my_trip
 from conversion import get_conversion
+from glowup import glowing
+from planmytrip import gen_and_ext
 
 # Load environment variables from .env file
 load_dotenv()
@@ -24,68 +26,46 @@ def switch_tab(tab_name):
     st.session_state["active_tab"] = tab_name
     st.rerun()  # Refresh UI to reflect change
 
+st.markdown(
+    """
+    <style>
+        .block-container {
+            padding-top: 1rem !important; /* Adjust the top padding */
+            padding-left: 6rem;
+            padding-right: 6rem;
+        }
+    </style>
+    """,
+    unsafe_allow_html=True
+)
+
 # Custom CSS for aligning navigation buttons to the right & styling the "Get Started" button
 st.markdown(
     """
     <style>
-        /* Align navigation buttons to the right */
-        .nav-container {
-            display: flex;
-            justify-content: flex-end;
-            align-items: ;
-            padding: 10px 40px;
-            gap: 25px;
-        }
 
-        /* Navigation button styling */
-        .stButton > button {
-            background: none;
-            border: none;
-            color: black;
-            font-size: 18px;
-            cursor: pointer;
-            font-weight: bold;
-        }
-
-        /* Hover effect for navigation buttons */
-        .stButton > button:hover {
-            text-decoration: underline;
-        }
-
-        /* Style for the 'Get Started' button */
-        .get-started-container {
-            display: flex;
-            justify-content: center;
-            margin-top: 50px;
-        }
-        .get-started {
+        button[kind="primary"] {
             background-color: #FF7F9F;
-            color: white;
-            font-size: 18px;
-            font-weight: bold;
-            padding: 12px 24px;
-            border: 2px solid #ff5c8a;
-            border-radius: 8px;
-            cursor: pointer;    
-            text-align: center;
-        }
-        .get-started-button:hover {
-            background-color: #ff5c8a;
-            border-color: #ff3d6e;
+            border: none;
         }
 
-        /* Styling for the Trippin button text */
-        div[data-testid="stButton"] > button {
-            font-size: 24px !important;  /* Larger font */
-            font-weight: bold !important;
-            color: #FF7F9F !important;  /* Pink text */
-            background: none !important;
-            border: none !important;
+        button[kind="primary"]:hover {
+            background-color: #ff5c8a;  
+            cursor: pointer;  
+        }
+
+        button[kind="secondary"] {
+            background-color: none;
+            border: none;
+            color: #FF7F9F
+        }
+
+        button[kind="secondary"]:hover {
+            color: white;  
+            background-color: #FF7F9F;  
             cursor: pointer;
         }
-        div[data-testid="stButton"] > button:hover {
-            text-decoration: underline;
-        }
+
     </style>
     """,
     unsafe_allow_html=True
@@ -93,12 +73,22 @@ st.markdown(
 
 # Navigation Bar (properly aligned to the right)
 st.markdown('<div class="nav-container">', unsafe_allow_html=True)
-col1, col2, col3, col4, col5 = st.columns([7, 1, 1.5, 1.8, 1.5])  # Push buttons to the right
+col1, col2, col3, col4, col5, col6 = st.columns([6, 1, 1.3, 1.7, 1, 1])  # Push buttons to the right
 
+st.markdown(
+    """
+<style>
+button[title="View fullscreen"] {
+    display: none;
+}
+</style>
+""",
+    unsafe_allow_html=True,
+)
 with col1:
-    st.image("assets/trippin_logo.png", width=300)
+    st.image("assets/trippin_logo.png", width=220)
 with col2:
-    if st.button("Home", key="home_tab"):
+    if st.button("Home", key="home_tab", type="secondary"):
         switch_tab("Home")
 with col3:
     if st.button("Plan My Trip", key="trip_tab"):
@@ -107,6 +97,9 @@ with col4:
     if st.button("Currency Converter", key="convert_tab"):
         switch_tab("Convert")
 with col5:
+    if st.button("Glow Up", key="glowup_tab"):
+        switch_tab("Glow Up")
+with col6:
     if st.button("Chat", key="chat_tab"):
         switch_tab("Chat")
 st.markdown('</div>', unsafe_allow_html=True)
@@ -115,19 +108,62 @@ st.markdown('</div>', unsafe_allow_html=True)
 if st.session_state["active_tab"] == "Home":
     st.markdown(
     """
-    <h1 style="text-align: center;">Craft Unforgettable Itineraries with AI Trip Planner</h1>
-    <p style="text-align: center; font-size:18px;">Your personal trip planner and travel curator, creating custom itineraries tailored to your interests and budget.</p>
+    <h1 style="text-align: center;">
+        Say Goodbye to Travel Hassles, Hello to <span style="color: #FF7F9F;">Trippin AI!</span>
+    </h1>
     """,
     unsafe_allow_html=True
-)
+    )
+    st.write("")
+    col1, col2, col3 = st.columns([1, 9, 3.4])
+    with col2:
+        st.markdown(
+    """
+    <p style="font-size:18px;">We create customized itineraries, provide currency conversion, and answer all your travel questions. Need help?</p>
+    """,
+    unsafe_allow_html=True
+    )
+
+    with col3:
     
-    col1, col2, col3 = st.columns([5, 2, 5])
+        if st.button("Chat with our chatbot", type="secondary"):
+            switch_tab("Chat")
+
+    st.markdown(
+    """
+    <p style="text-align: center; font-size:18px;">Can't decide where to go? No worries, we've got you covered! Explore unlimited travel inspirations with personalized itineraries ready just for you!</p>
+    """,
+    unsafe_allow_html=True
+    )
+
+    st.write("")
+    
+    
+    col1, col2, col3, col4 = st.columns([2.5, 2, 2, 2])
 
     with col2:  # Center column
-        if st.button("Get started—it's free", key="get_started"):
-            switch_tab("Plan My Trip")  # Redirect to "Plan My Trip" tab
+        if st.button("✍🏻 Create An Itinerary", key="get_started", type="primary"):
+            switch_tab("Plan My Trip")  
+  
+    with col3:
+        user_preferences = {
+                "destination": "A random city or country that actually exists",
+                "travel_date": "none",
+                "num_days": "reasonable number of days",
+                "budget": "reasonable budget",
+                "companions": "either solo, family, friends or couple",
+                "activities": "any activities",
+                "dietary_options": "none",
+                "additional_requirements": "none"
+        }
+        if st.button("💭 Inspire me where to go", type="primary"):
+            st.session_state["destination"] = "random location"
+            gen_and_ext(user_preferences)
 
-    st.markdown("<h2 style='text-align: center;'>🌟 Tourist Recommendations 🌟</h2>", unsafe_allow_html=True)
+        
+    st.write("")
+    st.write("")
+    st.subheader("Tourist Recommendations")
 
     trip_col1, trip_col2, trip_col3 = st.columns(3)
 
@@ -136,26 +172,26 @@ if st.session_state["active_tab"] == "Home":
 
     # Recommended Trip 1
     with trip_col1:
-        st.image("assets/bali.jpg", use_column_width=True)
+        st.image("assets/bali.jpg", use_container_width=True)
         st.markdown("### Bali, Indonesia")
         st.write("Experience breathtaking beaches, lush jungles, and vibrant culture.")
-        if st.button("View", key="bali"):
+        if st.button("View", key="bali", type="primary"):
             st.session_state.selected_trip = "Bali"
 
     # Recommended Trip 2
     with trip_col2:
-        st.image("assets/paris.webp", use_column_width=True)
+        st.image("assets/paris.webp", use_container_width=True)
         st.markdown("### Paris, France")
         st.write("Visit the City of Love and explore its iconic landmarks and cafes.")
-        if st.button("View", key="paris"):
+        if st.button("View", key="paris", type="primary"):
             st.session_state.selected_trip = "Paris"
 
     # Recommended Trip 3
     with trip_col3:
-        st.image("assets/tokyo.webp", use_column_width=True)
+        st.image("assets/tokyo.webp", use_container_width=True)
         st.markdown("### Tokyo, Japan")
         st.write("Discover a mix of futuristic cityscapes and traditional temples.")
-        if st.button("View", key="tokyo"):
+        if st.button("View", key="tokyo", type="primary"):
             st.session_state.selected_trip = "Tokyo"
 
     st.markdown("<hr>", unsafe_allow_html=True)  # Add a separator
@@ -287,14 +323,18 @@ elif st.session_state["active_tab"] == "Plan My Trip":
     plan_my_trip()
 
 elif st.session_state["active_tab"] == "Chat":
-    st.header("Chat with AI")
+    st.title("Chat with AI")
     st.write("Ask travel-related questions and get instant recommendations.")
     generate_chat_response()
 
-# streamlit_app.py (excerpt)
 elif st.session_state["active_tab"] == "Itinerary":
     from itinerary import display_itinerary  # Import the function
     display_itinerary()  # Call it to render the layout
 
 elif st.session_state["active_tab"] == "Convert":
     get_conversion()
+
+elif st.session_state["active_tab"] == "Glow Up":
+    st.title("Give your self-planned itinerary a glow-up")
+    st.write("Just paste your itinerary, and we'll help improve it for you.")
+    glowing()

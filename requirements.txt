@@ -2,4 +2,10 @@ streamlit
 google-generativeai
 python-dotenv
 requests
-
+reportlab
+streamlit_extras
+streamlit_folium
+geopy
+folium
+openai
+pdfplumber
