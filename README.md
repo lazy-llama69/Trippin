@@ -5,29 +5,30 @@ This web app offers a simple way to create and enhance personalized travel itine
 <h4>
 </p>
 
----
+
 
 ## Functionalities
-**1. Personalized Itinerary Creation:**
-   Users can input their travel preferences, including destination, budget, activities, and duration, to automatically generate a customized itinerary tailored to their needs. 
-**2. Interactive Chatbot:**
-   A chatbot is available to assist users with real-time travel-related queries. It can offer activity suggestions, provide itinerary adjustments, and answer questions, creating a more interactive and responsive travel planning experience.
-**3. Activity & Destination Suggestions:**
-   Recommendations for local attractions, unique experiences, and hidden gems are provided to help travelers discover places and activities that match their interests.
-**4. Download and Export Itinerary:**
-   The finalized itinerary can be downloaded as a PDF or viewed on the web, allowing for offline viewing and sharing. 
-**5. Currency Conversions:**
-   Users can convert currency based on their travel destination, providing real-time exchange rate information. 
-**6. Itinerary Enhancement:**
-   Users can paste an existing itinerary into the platform, which will be refined and enhanced with additional suggestions, adjustments, and recommendations to improve the overall travel experience.
-**7. Tourist Recommendations & Travel Places:**
-   Detailed recommendations for popular tourist spots, cultural landmarks, and off-the-beaten-path locations are offered. 
-**8. Travel FAQs:**
-   A comprehensive FAQ section is available to address common travel-related questions, offering useful advice and tips to help users plan their trip more effectively.
-**9. Random Generation of Itinerary:**
-   For users who need inspiration or are undecided on their next destination, a randomly generated itinerary is available. 
-**10. Map Locations to Show Destination:**
-   The platform provides a map of the selected destination with markers for suggested places to visit, ensuring that users can easily navigate their destination and discover places of interest nearby.
+<ol>
+  <li><strong>Personalized Itinerary Creation:</strong><br> Users can input their travel preferences, including destination, budget, activities, and duration, to automatically generate a customized itinerary tailored to their needs.</li>
+  
+  <li><strong>Interactive Chatbot:</strong><br> A chatbot is available to assist users with real-time travel-related queries. It can offer activity suggestions, provide itinerary adjustments, and answer questions, creating a more interactive and responsive travel planning experience.</li>
+  
+  <li><strong>Activity & Destination Suggestions:</strong><br> Recommendations for local attractions, unique experiences, and hidden gems are provided to help travelers discover places and activities that match their interests.</li>
+  
+  <li><strong>Download and Export Itinerary:</strong><br> The finalized itinerary can be downloaded as a PDF or viewed on the web, allowing for offline viewing and sharing.</li>
+  
+  <li><strong>Currency Conversions:</strong><br> Users can convert currency based on their travel destination, providing real-time exchange rate information.</li>
+  
+  <li><strong>Itinerary Enhancement:</strong><br> Users can paste an existing itinerary into the platform, which will be refined and enhanced with additional suggestions, adjustments, and recommendations to improve the overall travel experience.</li>
+  
+  <li><strong>Tourist Recommendations & Travel Places:</strong><br> Detailed recommendations for popular tourist spots, cultural landmarks, and off-the-beaten-path locations are offered.</li>
+  
+  <li><strong>Travel FAQs:</strong><br> A comprehensive FAQ section is available to address common travel-related questions, offering useful advice and tips to help users plan their trip more effectively.</li>
+  
+  <li><strong>Random Generation of Itinerary:</strong><br> For users who need inspiration or are undecided on their next destination, a randomly generated itinerary is available.</li>
+  
+  <li><strong>Map Locations to Show Destination:</strong><br> The platform provides a map of the selected destination with markers for suggested places to visit, ensuring that users can easily navigate their destination and discover places of interest nearby.</li>
+</ol>
 <br>
 
 
@@ -41,11 +42,12 @@ $ pip install -r requirements.txt
 ```bash
 $ streamlit run streamlit_app.py
 ```
-
+<br>
 
 ## Try it out on our hosted website
 https://trippin.streamlit.app
 
+<br>
 
 ## Contributors
 
@@ -116,14 +118,30 @@ John Elisa
 </tr>
   </table>
   
+<br>
+
 ## Acknowledgments
 
 This project utilizes several third-party APIs to provide enhanced functionality and improve the user experience. The following APIs are acknowledged for their valuable contributions:
 
-**1. Gemini API** : The Gemini API is used for powering the chatbot functionality and enhancing the PDF itinerary feature. It enables interactive conversations with users, answering travel-related queries and providing real-time assistance. The Gemini API also helps enhance the personalized travel itineraries by refining and formatting them into professional PDF documents. Gemini API Documentation
-**2. Exchange Rate API**: The Exchange Rate API is used for real-time currency conversions, enabling users to easily manage and convert currencies based on live market data. Exchange Rate API Documentation
-**3. OpenAI API**: OpenAI's GPT-3 model is used to customize and generate personalized travel itineraries based on user preferences. It processes the user inputs to create detailed, dynamic, and customized itineraries, ensuring a tailored travel experience. OpenAI API Documentation
+<ol>
+  <li>
+    <strong>Gemini API:</strong><br>
+    The Gemini API powers the chatbot functionality and enhances the PDF itinerary feature. It enables interactive conversations with users, answering travel-related queries and providing real-time assistance. The Gemini API also helps enhance the personalized travel itineraries by refining and formatting them into professional PDF documents.<br>
+  </li>
+  
+  <li>
+    <strong>Exchange Rate API:</strong><br>
+    The Exchange Rate API is used for real-time currency conversions, enabling users to easily manage and convert currencies based on live market data.<br>
+  </li>
+  
+  <li>
+    <strong>OpenAI API:</strong><br>
+    OpenAI's GPT-3 model is used to customize and generate personalized travel itineraries based on user preferences. It processes the user inputs to create detailed, dynamic, and customized itineraries, ensuring a tailored travel experience.<br>
+  </li>
+</ol>
 
+<br>
 
 ## Important Note
 
@@ -131,6 +149,7 @@ If you fork or clone this repository, **please ensure to replace the API keys wi
 
 **Responsible usage of these resources is highly encouraged.**
 
+<br>
 
 ## License
 [![License](http://img.shields.io/:license-mit-blue.svg?style=flat-square)](http://badges.mit-license.org)
