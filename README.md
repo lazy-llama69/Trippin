@@ -26,8 +26,8 @@ This web app offers a simple way to create and enhance personalized travel itine
    A comprehensive FAQ section is available to address common travel-related questions, offering useful advice and tips to help users plan their trip more effectively.
 **9. Random Generation of Itinerary:**
    For users who need inspiration or are undecided on their next destination, a randomly generated itinerary is available. 
-**10. Map Locations to Shop Destination:**
-   The platform provides a map of the selected destination to ensure that users can easily navigate their destination and discover places of interest in close proximity.
+**10. Map Locations to Show Destination:**
+   The platform provides a map of the selected destination with markers for suggested places to visit, ensuring that users can easily navigate their destination and discover places of interest nearby.
 <br>
 
 
