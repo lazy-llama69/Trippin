@@ -52,16 +52,20 @@ def plan_my_trip():
         submit = st.button("Submit", key="submit_preferences",type="primary")
 
         if submit:
-            user_preferences = {
-                "destination": destination,
-                "travel_date": travel_date.strftime("%Y-%m-%d"),
-                "num_days": num_days,
-                "budget": budget,
-                "companions": companions,
-                "activities": activities,
-                "dietary_options": dietary_options,
-                "additional_requirements": additional_requirements
-            }
+            if not destination:
+                st.error("Please enter a destination before submitting.")
+
+            else:
+                user_preferences = {
+                    "destination": destination,
+                    "travel_date": travel_date.strftime("%Y-%m-%d"),
+                    "num_days": num_days,
+                    "budget": budget,
+                    "companions": companions,
+                    "activities": activities,
+                    "dietary_options": dietary_options,
+                    "additional_requirements": additional_requirements
+                }
 
             #run processes
             gen_and_ext(user_preferences)
