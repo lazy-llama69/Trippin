@@ -38,6 +38,23 @@ This web app offers a simple way to create and enhance personalized travel itine
 $ pip install -r requirements.txt
 ```
 * If any errors pop up during installation, just pip install one by one.
+* Make secrets folder
+```bash
+$ mkdir .streamlit 
+```
+* Create the secrets.toml file in the folder and add your api_keys like this
+[openai]
+api_key = "your_openai_api_key_here"
+
+[google]
+maps_api_key = "your_google_api_key_here"
+
+[exchange]
+api_key = "your_exchange_api_key_here"
+
+[gemini]
+api_key = "your_gemini_api_key_here"
+
 * Executing the source file
 ```bash
 $ streamlit run streamlit_app.py
